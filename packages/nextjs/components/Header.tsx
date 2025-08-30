@@ -4,12 +4,12 @@ import React, { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
+import { SwitchTheme } from "./SwitchTheme";
 import { Bars3Icon, BugAntIcon, HomeIcon } from "@heroicons/react/24/outline";
 import {
-  DappConsoleButton,
-  FaucetButton,
-  RainbowKitCustomConnectButton,
-  SuperchainFaucetButton,
+  // DappConsoleButton,
+  // FaucetButton,
+  RainbowKitCustomConnectButton, // SuperchainFaucetButton,
 } from "~~/components/scaffold-eth";
 import { useOutsideClick } from "~~/hooks/scaffold-eth";
 import { cn } from "~~/utils/cn";
@@ -84,6 +84,7 @@ export const Header = () => {
           >
             <Bars3Icon className="h-1/2" />
           </label>
+
           {isDrawerOpen && (
             <ul
               tabIndex={0}
@@ -105,15 +106,17 @@ export const Header = () => {
             <span className="text-xs">Ethereum dev stack</span>
           </div>
         </Link>
+
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
           <HeaderMenuLinks />
         </ul>
       </div>
       <div className="navbar-end flex-grow mr-4">
+        <SwitchTheme />
         <RainbowKitCustomConnectButton />
-        <FaucetButton />
-        <SuperchainFaucetButton />
-        <DappConsoleButton />
+        {/* <FaucetButton /> */}
+        {/* <SuperchainFaucetButton /> */}
+        {/* <DappConsoleButton /> */}
       </div>
     </header>
   );
