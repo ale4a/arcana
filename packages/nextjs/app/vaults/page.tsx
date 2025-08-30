@@ -56,91 +56,85 @@ const VaultsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-base-100 to-base-200 p-6">
+    <div className="min-h-screen bg-base-100 p-6">
       <div className="max-w-7xl mx-auto">
         {/* Vaults Table */}
-        <div className="bg-base-100 border-4 border-white shadow-[8px_8px_0px_0px_rgba(255,255,255,0.2)] overflow-hidden">
-          <div className="bg-base-300 text-white p-4">
-            <h2 className="text-2xl font-black uppercase tracking-wider">AVAILABLE VAULTS</h2>
+        <div className="bg-base-100 border border-base-300 overflow-hidden">
+          <div className="bg-base-300 text-base-content p-4">
+            <h2 className="text-2xl font-bold uppercase tracking-wider">AVAILABLE VAULTS</h2>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-base-300 text-white">
+              <thead className="bg-base-300 text-base-content">
                 <tr>
-                  <th className="p-4 text-left font-black uppercase tracking-wider border-r-2 border-black">
+                  <th className="p-4 text-left font-medium uppercase tracking-wider border-r border-base-content/20">
                     Vault Name
                   </th>
-                  <th className="p-4 text-left font-black uppercase tracking-wider border-r-2 border-black">
+                  <th className="p-4 text-left font-medium uppercase tracking-wider border-r border-base-content/20">
                     Your Deposits
                   </th>
-                  <th className="p-4 text-left font-black uppercase tracking-wider border-r-2 border-black">
+                  <th className="p-4 text-left font-medium uppercase tracking-wider border-r border-base-content/20">
                     Total Deposits (TVL)
                   </th>
-                  <th className="p-4 text-left font-black uppercase tracking-wider border-r-2 border-black">
+                  <th className="p-4 text-left font-medium uppercase tracking-wider border-r border-base-content/20">
                     Supply APY
                   </th>
-                  <th className="p-4 text-left font-black uppercase tracking-wider border-r-2 border-black">Rewards</th>
-                  <th className="p-4 text-left font-black uppercase tracking-wider">Action</th>
+                  <th className="p-4 text-left font-medium uppercase tracking-wider border-r border-base-content/20">
+                    Rewards
+                  </th>
+                  <th className="p-4 text-left font-medium uppercase tracking-wider">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {mockVaults.map((vault, index) => (
                   <tr
                     key={vault.id}
-                    className={`border-t-2 border-black hover:bg-base-200 transition-colors ${
-                      index % 2 === 0 ? "bg-white text-black" : "bg-base-300 text-white"
+                    className={`border-t border-base-300 hover:bg-base-200 transition-colors ${
+                      index % 2 === 0 ? "bg-base-100 text-base-content" : "bg-base-200 text-base-content"
                     }`}
                   >
-                    <td className="p-4 border-r-2 border-black">
+                    <td className="p-4 border-r border-base-300">
                       <div className="flex items-center space-x-3">
-                        <div
-                          className={`w-10 h-10 rounded-full border-2 border-black flex items-center justify-center font-black text-sm ${
-                            vault.token === "ETH"
-                              ? "bg-base-300 text-white"
-                              : vault.token === "USDC"
-                              ? "bg-base-200 text-white"
-                              : "bg-base-100 text-black"
-                          }`}
-                        >
+                        <div className="w-8 h-8 bg-base-300 border border-base-content flex items-center justify-center text-xs font-bold">
                           {vault.token}
                         </div>
                         <div>
-                          <div className="font-black text-lg">{vault.name}</div>
-                          <div className="text-sm opacity-75">{vault.token} Token</div>
+                          <div className="font-medium text-base">{vault.name}</div>
+                          <div className="text-sm text-base-content/70">{vault.token} Token</div>
                         </div>
                       </div>
                     </td>
-                    <td className="p-4 border-r-2 border-black">
-                      <div className="font-bold text-lg">
+                    <td className="p-4 border-r border-base-300">
+                      <div className="font-medium text-base">
                         {formatNumber(vault.yourDeposits)} {vault.token}
                       </div>
-                      <div className="text-sm opacity-75">
+                      <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.yourDeposits * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
                         )}
                       </div>
                     </td>
-                    <td className="p-4 border-r-2 border-black">
-                      <div className="font-bold text-lg">
+                    <td className="p-4 border-r border-base-300">
+                      <div className="font-medium text-base">
                         {formatNumber(vault.totalDeposits)} {vault.token}
                       </div>
-                      <div className="text-sm opacity-75">
+                      <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.totalDeposits * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
                         )}
                       </div>
                     </td>
-                    <td className="p-4 border-r-2 border-black">
-                      <div className="font-black text-xl text-white">{vault.supplyApy}%</div>
+                    <td className="p-4 border-r border-base-300">
+                      <div className="font-bold text-lg text-success">{vault.supplyApy}%</div>
                     </td>
-                    <td className="p-4 border-r-2 border-black">
-                      <div className="font-bold text-lg">
+                    <td className="p-4 border-r border-base-300">
+                      <div className="font-medium text-base">
                         {formatNumber(vault.rewards)} {vault.token}
                       </div>
-                      <div className="text-sm opacity-75">
+                      <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.rewards * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
@@ -150,7 +144,7 @@ const VaultsPage = () => {
                     <td className="p-4">
                       <button
                         onClick={() => handleDeposit(vault.id)}
-                        className="bg-base-300 hover:bg-white text-white hover:text-black font-black py-3 px-6 border-2 border-white shadow-[4px_4px_0px_0px_rgba(255,255,255,0.3)] hover:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.5)] hover:translate-x-1 hover:translate-y-1 transition-all duration-200 uppercase tracking-wider"
+                        className="bg-primary text-primary-content font-medium py-2 px-4 border border-primary hover:bg-primary/90 transition-colors uppercase tracking-wide"
                       >
                         DEPOSIT
                       </button>
@@ -163,57 +157,57 @@ const VaultsPage = () => {
         </div>
 
         {/* Footer Stats */}
-        <div className="mt-12 bg-base-200 border-2 border-base-content shadow-[4px_4px_0px_0px_rgba(255,255,255,0.1)]">
+        <div className="mt-8 bg-base-200 border border-base-300">
           <div className="p-6 text-base-content">
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-sm">
               <div className="border-r border-base-content/20 pr-4">
-                <span className="font-bold uppercase tracking-wide">TVL:</span>
-                <p className="font-black text-lg">$354.32M</p>
+                <span className="font-medium uppercase tracking-wide">TVL:</span>
+                <p className="font-bold text-lg">$354.32M</p>
               </div>
               <div className="border-r border-base-content/20 pr-4">
-                <span className="font-bold uppercase tracking-wide">Validator Stake:</span>
-                <p className="font-black text-lg">$147.24M</p>
+                <span className="font-medium uppercase tracking-wide">Validator Stake:</span>
+                <p className="font-bold text-lg">$147.24M</p>
               </div>
               <div className="border-r border-base-content/20 pr-4">
-                <span className="font-bold uppercase tracking-wide">Active Vaults:</span>
-                <p className="font-black text-lg">3</p>
+                <span className="font-medium uppercase tracking-wide">Active Vaults:</span>
+                <p className="font-bold text-lg">3</p>
               </div>
               <div className="border-r border-base-content/20 pr-4">
-                <span className="font-bold uppercase tracking-wide">Avg APY:</span>
-                <p className="font-black text-lg">8.73%</p>
+                <span className="font-medium uppercase tracking-wide">Avg APY:</span>
+                <p className="font-bold text-lg">8.73%</p>
               </div>
               <div className="border-r border-base-content/20 pr-4">
-                <span className="font-bold uppercase tracking-wide">Status:</span>
-                <p className="font-black text-lg">Operational</p>
+                <span className="font-medium uppercase tracking-wide">Status:</span>
+                <p className="font-bold text-lg">Operational</p>
               </div>
               <div>
-                <span className="font-bold uppercase tracking-wide">Users:</span>
-                <p className="font-black text-lg">2,847</p>
+                <span className="font-medium uppercase tracking-wide">Users:</span>
+                <p className="font-bold text-lg">2,847</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer Links */}
-        <div className="mt-8 bg-black border-2 border-white shadow-[2px_2px_0px_0px_#ffffff]">
-          <div className="p-4 text-white">
-            <div className="flex flex-wrap justify-center items-center gap-6 text-sm font-bold uppercase tracking-wider">
-              <a href="#" className="hover:text-accent transition-colors border-r border-white/20 pr-6">
+        <div className="mt-8 bg-base-300 border border-base-content/20">
+          <div className="p-4 text-base-content">
+            <div className="flex flex-wrap justify-center items-center gap-6 text-sm font-medium uppercase tracking-wide">
+              <a href="#" className="hover:text-primary transition-colors border-r border-base-content/20 pr-6">
                 Brand
               </a>
-              <a href="#" className="hover:text-accent transition-colors border-r border-white/20 pr-6">
+              <a href="#" className="hover:text-primary transition-colors border-r border-base-content/20 pr-6">
                 Docs
               </a>
-              <a href="#" className="hover:text-accent transition-colors border-r border-white/20 pr-6">
+              <a href="#" className="hover:text-primary transition-colors border-r border-base-content/20 pr-6">
                 X
               </a>
-              <a href="#" className="hover:text-accent transition-colors border-r border-white/20 pr-6">
+              <a href="#" className="hover:text-primary transition-colors border-r border-base-content/20 pr-6">
                 Discord
               </a>
-              <a href="#" className="hover:text-accent transition-colors border-r border-white/20 pr-6">
+              <a href="#" className="hover:text-primary transition-colors border-r border-base-content/20 pr-6">
                 Terms
               </a>
-              <a href="#" className="hover:text-accent transition-colors">
+              <a href="#" className="hover:text-primary transition-colors">
                 Privacy
               </a>
             </div>

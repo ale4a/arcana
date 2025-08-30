@@ -41,23 +41,23 @@ module.exports = {
       },
       {
         dark: {
-          // Tema "Negro Típico" - Negro puro y elegante
-          primary: "#3B82F6", // Azul moderno
+          // Tema "Negro Minimalista" - Solo negro con acento rgb(232, 77, 49)
+          primary: "#E84D31", // Rojo-naranja vibrante rgb(232, 77, 49) - ÚNICO COLOR
           "primary-content": "#FFFFFF", // Blanco puro
-          secondary: "#6B7280", // Gris neutro
+          secondary: "#404040", // Gris oscuro neutro
           "secondary-content": "#FFFFFF", // Blanco puro
-          accent: "#F59E0B", // Amarillo/naranja
-          "accent-content": "#000000", // Negro puro
-          neutral: "#374151", // Gris oscuro
+          accent: "#E84D31", // Mismo color primario para consistencia
+          "accent-content": "#FFFFFF", // Blanco puro
+          neutral: "#262626", // Gris muy oscuro
           "neutral-content": "#FFFFFF", // Blanco puro
-          "base-100": "#000000", // Negro puro base
-          "base-200": "#1F1F1F", // Gris muy oscuro
-          "base-300": "#2D2D2D", // Gris oscuro
+          "base-100": "#000000", // Negro puro absoluto
+          "base-200": "#0A0A0A", // Negro ligeramente más claro
+          "base-300": "#1A1A1A", // Gris muy oscuro
           "base-content": "#FFFFFF", // Blanco puro para texto
-          info: "#3B82F6", // Azul
-          success: "#10B981", // Verde
-          warning: "#F59E0B", // Amarillo
-          error: "#EF4444", // Rojo
+          info: "#6B7280", // Gris neutro
+          success: "#22C55E", // Verde simple
+          warning: "#F59E0B", // Amarillo simple
+          error: "#EF4444", // Rojo simple
 
           "--rounded-btn": "0.5rem",
 
