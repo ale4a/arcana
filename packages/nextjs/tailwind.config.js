@@ -8,24 +8,25 @@ module.exports = {
     themes: [
       {
         light: {
-          primary: "#2563eb",
-          "primary-content": "#ffffff",
-          secondary: "#64748b",
-          "secondary-content": "#ffffff",
-          accent: "#3b82f6",
-          "accent-content": "#ffffff",
-          neutral: "#374151",
-          "neutral-content": "#ffffff",
-          "base-100": "#ffffff",
-          "base-200": "#f8fafc",
-          "base-300": "#e2e8f0",
-          "base-content": "#1e293b",
-          info: "#0ea5e9",
-          success: "#22c55e",
-          warning: "#f59e0b",
-          error: "#ef4444",
+          // Tema "Pergamino Claro" - Colores puros y cálidos
+          primary: "#8B4513", // Marrón cuero
+          "primary-content": "#FFFFFF", // Blanco puro
+          secondary: "#CD853F", // Marrón dorado
+          "secondary-content": "#FFFFFF", // Blanco puro
+          accent: "#B22222", // Rojo óxido
+          "accent-content": "#FFFFFF", // Blanco puro
+          neutral: "#654321", // Marrón tierra
+          "neutral-content": "#FFFFFF", // Blanco puro
+          "base-100": "#F4E2C8", // Beige cálido base
+          "base-200": "#F0D9B5", // Beige más oscuro
+          "base-300": "#E8CFA2", // Beige aún más oscuro
+          "base-content": "#2F1B14", // Marrón muy oscuro para texto
+          info: "#4682B4", // Azul acero
+          success: "#228B22", // Verde bosque
+          warning: "#DAA520", // Dorado
+          error: "#DC143C", // Rojo carmesí
 
-          "--rounded-btn": "9999rem",
+          "--rounded-btn": "0.5rem",
 
           ".tooltip": {
             "--tooltip-tail": "6px",
@@ -40,24 +41,25 @@ module.exports = {
       },
       {
         dark: {
-          primary: "#3b82f6",
-          "primary-content": "#ffffff",
-          secondary: "#64748b",
-          "secondary-content": "#ffffff",
-          accent: "#93bbfb",
-          "accent-content": "#1e293b",
-          neutral: "#374151",
-          "neutral-content": "#ffffff",
-          "base-100": "#0f172a",
-          "base-200": "#1e293b",
-          "base-300": "#334155",
-          "base-content": "#f1f5f9",
-          info: "#0ea5e9",
-          success: "#22c55e",
-          warning: "#f59e0b",
-          error: "#ef4444",
+          // Tema "Negro Típico" - Negro puro y elegante
+          primary: "#3B82F6", // Azul moderno
+          "primary-content": "#FFFFFF", // Blanco puro
+          secondary: "#6B7280", // Gris neutro
+          "secondary-content": "#FFFFFF", // Blanco puro
+          accent: "#F59E0B", // Amarillo/naranja
+          "accent-content": "#000000", // Negro puro
+          neutral: "#374151", // Gris oscuro
+          "neutral-content": "#FFFFFF", // Blanco puro
+          "base-100": "#000000", // Negro puro base
+          "base-200": "#1F1F1F", // Gris muy oscuro
+          "base-300": "#2D2D2D", // Gris oscuro
+          "base-content": "#FFFFFF", // Blanco puro para texto
+          info: "#3B82F6", // Azul
+          success: "#10B981", // Verde
+          warning: "#F59E0B", // Amarillo
+          error: "#EF4444", // Rojo
 
-          "--rounded-btn": "9999rem",
+          "--rounded-btn": "0.5rem",
 
           ".tooltip": {
             "--tooltip-tail": "6px",
