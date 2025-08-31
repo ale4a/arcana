@@ -6,3 +6,4 @@ export { default as PerformanceChart } from "./PerformanceChart";
 export { default as ProtocolsExposure } from "./ProtocolsExposure";
 export { default as VaultDetails } from "./VaultDetails";
 export { default as ExpandableSections } from "./ExpandableSections";
+export { default as AdminControls } from "./AdminControls";

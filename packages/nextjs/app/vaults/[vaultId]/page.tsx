@@ -5,6 +5,7 @@ import DepositModal from "../../../components/ui/modals/DepositModal";
 import WithdrawModal from "../../../components/ui/modals/WithdrawModal";
 import {
   ActionButtons,
+  AdminControls,
   ExpandableSections,
   PerformanceChart,
   ProtocolsExposure,
@@ -14,7 +15,7 @@ import {
 } from "../../../components/vault";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "../../../hooks/scaffold-eth";
 import { useVaultModals } from "../../../hooks/useVaultModals";
-import { formatEther, parseEther } from "viem";
+import { parseEther } from "viem";
 import { useAccount, useContractWrite } from "wagmi";
 import { useBalance } from "wagmi";
 
@@ -53,13 +54,6 @@ const VaultPage = () => {
     args: [0n, address as `0x${string}`, address as `0x${string}`],
   });
 
-  // Admin rebalance function - moves assets between strategies
-  const { writeAsync: rebalanceAsync, isMining: isRebalancing } = useScaffoldContractWrite({
-    contractName: "Arcana",
-    functionName: "rebalance",
-    args: [0n, 0n, 0n],
-  });
-
   // For Lisk token approval, we need to use the Lisk token contract directly
   const { writeAsync: approveLiskAsync, isLoading: isApprovingLisk } = useContractWrite({
     address: LISK_TOKEN_ADDRESS as `0x${string}`,
@@ -78,34 +72,11 @@ const VaultPage = () => {
     functionName: "approve",
   });
 
-  // Contract read hooks for vault data
-  // Get user's vault shares balance
-  const { data: userVaultShares, isLoading: isVaultSharesLoading } = useScaffoldContractRead({
-    contractName: "Arcana",
-    functionName: "balanceOf",
-    args: [address as `0x${string}`],
-  });
-
-  // Calculate the value of user's vault shares using previewRedeem
-  // This shows how much the user would receive if they redeemed all their shares
-  const { data: previewRedeemValue, isLoading: isPreviewRedeemLoading } = useScaffoldContractRead({
-    contractName: "Arcana",
-    functionName: "previewRedeem",
-    args: [userVaultShares || 0n],
-  });
-
   // Preview withdraw function to calculate how much user would receive for a given amount
   useScaffoldContractRead({
     contractName: "Arcana",
     functionName: "previewWithdraw",
     args: [0n],
-  });
-
-  // Get total assets in the vault for rebalance calculation
-  const { data: totalAssets } = useScaffoldContractRead({
-    contractName: "Arcana",
-    functionName: "totalAssets",
-    args: undefined,
   });
 
   // Mock data
@@ -116,7 +87,7 @@ const VaultPage = () => {
       "The best risk-adjusted return on your LSK, dynamically allocating capital through strategies typically exclusive to institutions now democratized for all.",
     apy: 9.51,
     tvl: 115.93,
-    yourValue: previewRedeemValue ? Number(formatEther(previewRedeemValue)) : 0,
+    yourValue: 0, // This will be calculated in UserStats component
     yieldEarned: 0.0,
     unboost: 0.0,
     userBalance: liskBalance ? Number(liskBalance.formatted) : 0,
@@ -136,20 +107,6 @@ const VaultPage = () => {
       return "Connect wallet to view balance";
     }
     return `${vaultData.userBalance.toFixed(2)} LSK`;
-  };
-
-  // Handle loading and error states for vault value
-  const getVaultValueDisplay = () => {
-    if (isVaultSharesLoading || isPreviewRedeemLoading) {
-      return "Loading...";
-    }
-    if (!address) {
-      return "Connect wallet to view value";
-    }
-    if (!userVaultShares || userVaultShares === 0n) {
-      return "$0.00";
-    }
-    return `$${vaultData.yourValue.toFixed(2)}`;
   };
 
   const strategiesData = [
@@ -217,35 +174,6 @@ const VaultPage = () => {
     }
   };
 
-  const handleRebalance = async () => {
-    if (!address) {
-      console.error("Wallet not connected");
-      return;
-    }
-
-    if (!totalAssets || totalAssets === 0n) {
-      console.error("No assets in vault to rebalance");
-      return;
-    }
-
-    try {
-      // Calculate half of the total assets for rebalancing
-      const halfAssets = totalAssets / 2n;
-
-      // Rebalance half of the supply from strategy 0 to strategy 1
-      // rebalance(fromIdx, toIdx, assets) - where assets is half of total supply
-      console.log(`Rebalancing ${formatEther(halfAssets)} assets from strategy 0 to strategy 1...`);
-      await rebalanceAsync({
-        args: [0n, 1n, halfAssets],
-      });
-
-      console.log("Rebalance successful!");
-    } catch (error) {
-      console.error("Rebalance failed:", error);
-      throw error;
-    }
-  };
-
   const toggleSection = (section: string) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -258,12 +186,20 @@ const VaultPage = () => {
       <div className="max-w-7xl mx-auto p-6">
         {/* Back to all vaults */}
         <div className="mb-4">
-          <button className="text-sm text-base-content/70 hover:text-base-content">← Back to all vaults</button>
+          <button
+            onClick={() => window.history.back()}
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-base-content/70 hover:text-base-content border border-base-300 rounded-lg transition-colors duration-200"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to all vaults
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-0 lg:gap-2">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-2">
             {/* Vault Header */}
             <div className="bg-base-100 border-[1px] border-base-300 p-6">
               <div className="flex items-center space-x-3 mb-4">
@@ -276,193 +212,39 @@ const VaultPage = () => {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* APY Card */}
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-2xl font-bold">{vaultData.apy}%</span>
-                  <div className="flex space-x-1">
-                    <span className="text-xs bg-base-200 px-2 py-1">APY</span>
-                    <span className="text-xs bg-base-200 px-2 py-1">TVL</span>
-                  </div>
-                </div>
-                <span className="text-xs text-base-content/70">APY ⓘ</span>
-              </div>
-
-              {/* TVL Card */}
-              <div className="bg-base-100 border border-base-300 p-4">
-                <span className="text-2xl font-bold">${vaultData.tvl}M</span>
-                <div className="text-xs text-base-content/70 mt-2">TVL</div>
-              </div>
-            </div>
+            <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
 
             {/* User Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">YOUR $ VALUE</div>
-                <div className="font-medium">
-                  {isVaultSharesLoading || isPreviewRedeemLoading ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                      <span>Loading...</span>
-                    </div>
-                  ) : !address ? (
-                    <span className="text-warning">Connect wallet</span>
-                  ) : (
-                    getVaultValueDisplay()
-                  )}
-                </div>
-              </div>
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">YIELD EARNED</div>
-                <div className="font-medium">${vaultData.yieldEarned.toFixed(2)}</div>
-              </div>
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">arcUSDC</div>
-                <div className="font-medium">
-                  {isVaultSharesLoading ? (
-                    <div className="flex items-center space-x-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                      <span>Loading...</span>
-                    </div>
-                  ) : !address ? (
-                    <span className="text-warning">Connect wallet</span>
-                  ) : userVaultShares ? (
-                    Number(formatEther(userVaultShares)).toFixed(4)
-                  ) : (
-                    "0.0000"
-                  )}
-                </div>
-                <div className="flex mt-2 space-x-1">
-                  {vaultData.depositAssets.map((asset, index) => (
-                    <div
-                      key={index}
-                      className="w-5 h-5 bg-base-300 rounded-full flex items-center justify-center text-xs"
-                    >
-                      {asset.charAt(0)}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Lisk Balance Display */}
-            <div className="bg-base-100 border border-base-300 p-4">
-              <div className="text-sm text-base-content/70 mb-1">YOUR LSK BALANCE</div>
-              <div className="font-medium">
-                {isBalanceLoading ? (
-                  <div className="flex items-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
-                    <span>Loading balance...</span>
-                  </div>
-                ) : balanceError ? (
-                  <span className="text-error">Error loading balance</span>
-                ) : !address ? (
-                  <span className="text-warning">Connect wallet to view balance</span>
-                ) : (
-                  <span>{vaultData.userBalance.toFixed(2)} LSK</span>
-                )}
-              </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-4">
-              <button
-                onClick={openDepositModal}
-                className="bg-base-100 border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
-              >
-                DEPOSIT
-              </button>
-              <button
-                onClick={openWithdrawModal}
-                className="bg-base-100 border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
-              >
-                WITHDRAW
-              </button>
-            </div>
-
-            {/* Admin Rebalance Button */}
-            <div className="bg-base-100 border border-base-300 p-4">
-              <div className="text-sm text-base-content/70 mb-2">ADMIN CONTROLS</div>
-              <button
-                onClick={handleRebalance}
-                disabled={isRebalancing || !totalAssets || totalAssets === 0n}
-                className="w-full bg-warning text-warning-content py-3 text-center font-medium hover:bg-warning-focus transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {isRebalancing ? (
-                  <div className="flex items-center justify-center space-x-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-warning-content"></div>
-                    <span>Rebalancing...</span>
-                  </div>
-                ) : (
-                  `Rebalance half - Morpho → Rasa`
-                )}
-              </button>
-              <div className="text-xs text-base-content/50 mt-2">
-                Moves half of total vault assets from strategy 0 to strategy 1
-              </div>
-            </div>
-
-            {/* Expandable Sections */}
-            <div className="space-y-4">
-              {/* Hyperbeat Rewards */}
-              <div className="bg-base-100 border border-base-300">
-                <button
-                  onClick={() => toggleSection("rewards")}
-                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
-                >
-                  <span className="font-medium">HYPERBEAT REWARDS</span>
-                  <span className="text-xl">{expandedSections.rewards ? "−" : "+"}</span>
-                </button>
-                {expandedSections.rewards && (
-                  <div className="p-4 border-t border-base-300">
-                    <p className="text-sm text-base-content/70">
-                      Earn additional rewards through the Hyperbeat protocol.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
-
-              <UserStats
-                yourValue={vaultData.yourValue}
-                yieldEarned={vaultData.yieldEarned}
-                unboost={vaultData.unboost}
-                depositAssets={vaultData.depositAssets}
-              />
-
-              <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} />
-            </div>
-
-            {/* Right Column - Performance Chart */}
-            <div className="hidden lg:flex lg:flex-col">
-              <PerformanceChart isMobile={false} fullHeight={true} />
-            </div>
+            <UserStats yieldEarned={vaultData.yieldEarned} />
+            <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} />
+            {/* Admin Controls */}
+            <AdminControls />
           </div>
-
+          {/* Right Column - Performance Chart */}
+          <div className="lg:col-span-2 space-y-2 bg-red-500">
+            <PerformanceChart isMobile={false} fullHeight={true} />
+          </div>
           {/* Second Row - Expandable Sections and Technical Details */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-            {/* Left Column - Expandable Sections */}
-            <div className="space-y-4">
-              <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
-            </div>
-
-            {/* Right Column - Protocols and Vault Details */}
-            <div className="hidden lg:block space-y-2">
-              <ProtocolsExposure protocols={strategiesData} />
-              <VaultDetails details={vaultDetails} />
-            </div>
+        </div>
+        <div className="grid lg:grid-cols-2 gap-2 lg:py-4 py-0">
+          <div className="lg:col-span-1 space-y-4 hidden lg:block">
+            <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
           </div>
 
-          {/* Mobile Only Content */}
-          <div className="lg:hidden space-y-6 mt-6">
-            <PerformanceChart isMobile={true} />
+          <div className="hidden lg:block lg:grid-span-1 space-y-2">
             <ProtocolsExposure protocols={strategiesData} />
             <VaultDetails details={vaultDetails} />
           </div>
         </div>
 
+        {/* Mobile Only Content */}
+        <div className="lg:hidden space-y-4 mt-2">
+          <PerformanceChart isMobile={true} />
+          <ProtocolsExposure protocols={strategiesData} />
+          <VaultDetails details={vaultDetails} />
+          <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
+        </div>
+        {/* Expandable Sections */}
         {/* Mobile Action Buttons - Sticky Footer */}
         <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} isMobile={true} />
 
@@ -485,7 +267,7 @@ const VaultPage = () => {
           isOpen={isWithdrawOpen}
           onClose={closeModal}
           vaultName={vaultData.vaultName}
-          userArcUSDBalance={userVaultShares ? Number(formatEther(userVaultShares)) : 0}
+          userArcUSDBalance={vaultData.userArcUSDBalance}
           onWithdraw={handleWithdraw}
           isLoading={isWithdrawing}
         />
