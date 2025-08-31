@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { RainbowKitProvider, darkTheme, lightTheme } from "@rainbow-me/rainbowkit";
 import { useTheme } from "next-themes";
 import { Toaster } from "react-hot-toast";
 import { WagmiConfig } from "wagmi";
 import { Footer } from "~~/components/Footer";
 import { Header } from "~~/components/Header";
+import LandingHeader from "~~/components/LandingHeader";
 import { BlockieAvatar } from "~~/components/scaffold-eth";
 import { ProgressBar } from "~~/components/scaffold-eth/ProgressBar";
 import { useNativeCurrencyPrice } from "~~/hooks/scaffold-eth";
@@ -17,6 +19,7 @@ import { appChains } from "~~/services/web3/wagmiConnectors";
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   const price = useNativeCurrencyPrice();
   const setNativeCurrencyPrice = useGlobalState(state => state.setNativeCurrencyPrice);
+  const pathname = usePathname();
 
   useEffect(() => {
     if (price > 0) {
@@ -24,10 +27,14 @@ const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
     }
   }, [setNativeCurrencyPrice, price]);
 
+  // Use LandingHeader for the home page, Header for other pages
+  const isHomePage = pathname === "/";
+  const CurrentHeader = isHomePage ? LandingHeader : Header;
+
   return (
     <>
       <div className="flex flex-col min-h-screen bg-base-100">
-        <Header />
+        <CurrentHeader />
         <main className="relative flex flex-col flex-1">{children}</main>
         <Footer />
       </div>
