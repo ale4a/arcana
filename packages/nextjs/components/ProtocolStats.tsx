@@ -18,8 +18,9 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({
   className = "",
 }) => {
   // URLs constantes
-  const DOCS_URL = "https://docs.arcana.finance";
-  const TERMS_URL = "https://arcana.finance/terms";
+  const DOCS_URL =
+    "https://puddle-feverfew-e8a.notion.site/Arcana-Whitepaper-2607f7e814af80439387cc6e0e5a0f34?source=copy_link";
+  const TERMS_URL = "https://x.com/ArcanaFinance";
   const X_URL = "https://x.com/ArcanaFinance";
   const handleLinkClick = (url: string) => {
     if (url && url !== "#") {

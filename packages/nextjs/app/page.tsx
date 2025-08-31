@@ -45,9 +45,14 @@ const HomePage = () => {
                 >
                   Explore Vaults
                 </Link>
-                <button className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-base-300 text-base-content font-semibold rounded-lg hover:bg-base-200 transition-colors text-sm sm:text-base">
+                <a
+                  href="https://puddle-feverfew-e8a.notion.site/Arcana-Whitepaper-2607f7e814af80439387cc6e0e5a0f34?source=copy_link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-base-300 text-base-content font-semibold rounded-lg hover:bg-base-200 transition-colors text-sm sm:text-base"
+                >
                   Read Whitepaper
-                </button>
+                </a>
               </div>
 
               {/* Key Stats */}
@@ -361,9 +366,14 @@ const HomePage = () => {
               >
                 Explore Vaults
               </Link>
-              <button className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-base-300 text-base-content font-semibold rounded-lg hover:bg-base-200 transition-colors text-sm sm:text-base">
+              <a
+                href="https://puddle-feverfew-e8a.notion.site/Arcana-Whitepaper-2607f7e814af80439387cc6e0e5a0f34?source=copy_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-3 sm:py-4 border border-base-300 text-base-content font-semibold rounded-lg hover:bg-base-200 transition-colors text-sm sm:text-base"
+              >
                 Read Whitepaper
-              </button>
+              </a>
             </div>
 
             <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-xs sm:text-sm text-base-content/60">
