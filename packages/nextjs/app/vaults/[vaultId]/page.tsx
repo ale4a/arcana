@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
 import DepositModal from "../../../components/ui/modals/DepositModal";
 import WithdrawModal from "../../../components/ui/modals/WithdrawModal";
 import {
@@ -12,7 +11,6 @@ import {
   StatsCards,
   UserStats,
   VaultDetails,
-  VaultHeader,
 } from "../../../components/vault";
 import { useScaffoldContractRead, useScaffoldContractWrite } from "../../../hooks/scaffold-eth";
 import { useVaultModals } from "../../../hooks/useVaultModals";
@@ -425,51 +423,51 @@ const VaultPage = () => {
                 )}
               </div>
 
-            <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
+              <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
 
-            <UserStats
-              yourValue={vaultData.yourValue}
-              yieldEarned={vaultData.yieldEarned}
-              unboost={vaultData.unboost}
-              depositAssets={vaultData.depositAssets}
-            />
+              <UserStats
+                yourValue={vaultData.yourValue}
+                yieldEarned={vaultData.yieldEarned}
+                unboost={vaultData.unboost}
+                depositAssets={vaultData.depositAssets}
+              />
 
-            <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} />
+              <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} />
+            </div>
+
+            {/* Right Column - Performance Chart */}
+            <div className="hidden lg:flex lg:flex-col">
+              <PerformanceChart isMobile={false} fullHeight={true} />
+            </div>
           </div>
 
-          {/* Right Column - Performance Chart */}
-          <div className="hidden lg:flex lg:flex-col">
-            <PerformanceChart isMobile={false} fullHeight={true} />
-          </div>
-        </div>
+          {/* Second Row - Expandable Sections and Technical Details */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+            {/* Left Column - Expandable Sections */}
+            <div className="space-y-4">
+              <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
+            </div>
 
-        {/* Second Row - Expandable Sections and Technical Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
-          {/* Left Column - Expandable Sections */}
-          <div className="space-y-4">
-            <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
+            {/* Right Column - Protocols and Vault Details */}
+            <div className="hidden lg:block space-y-2">
+              <ProtocolsExposure protocols={strategiesData} />
+              <VaultDetails details={vaultDetails} />
+            </div>
           </div>
 
-          {/* Right Column - Protocols and Vault Details */}
-          <div className="hidden lg:block space-y-2">
+          {/* Mobile Only Content */}
+          <div className="lg:hidden space-y-6 mt-6">
+            <PerformanceChart isMobile={true} />
             <ProtocolsExposure protocols={strategiesData} />
             <VaultDetails details={vaultDetails} />
           </div>
         </div>
 
-        {/* Mobile Only Content */}
-        <div className="lg:hidden space-y-6 mt-6">
-          <PerformanceChart isMobile={true} />
-          <ProtocolsExposure protocols={strategiesData} />
-          <VaultDetails details={vaultDetails} />
-        </div>
-      </div>
+        {/* Mobile Action Buttons - Sticky Footer */}
+        <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} isMobile={true} />
 
-      {/* Mobile Action Buttons - Sticky Footer */}
-      <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} isMobile={true} />
-
-      {/* Mobile padding bottom to avoid content being hidden behind sticky footer */}
-      <div className="md:hidden h-20"></div>
+        {/* Mobile padding bottom to avoid content being hidden behind sticky footer */}
+        <div className="md:hidden h-20"></div>
 
         {/* Modals */}
         <DepositModal

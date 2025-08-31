@@ -1,11 +1,5 @@
 import React from "react";
-
-interface StrategyData {
-  protocol: string;
-  strategy: string;
-  allocationPercent: string;
-  allocationAmount: string;
-}
+import { StrategyData } from "../../types/utils";
 
 interface ProtocolsExposureProps {
   protocols: StrategyData[];
@@ -38,10 +32,10 @@ const ProtocolsExposure: React.FC<ProtocolsExposureProps> = ({ protocols }) => {
           <tbody className="divide-y divide-base-300">
             {protocols.map((strategy, index) => (
               <tr key={index} className="hover:bg-base-200/50">
-                <td className="p-3 text-sm font-medium text-base-content">{strategy.protocol}</td>
-                <td className="p-3 text-sm text-base-content/70">{strategy.strategy}</td>
-                <td className="p-3 text-sm font-medium text-base-content text-right">{strategy.allocationPercent}</td>
-                <td className="p-3 text-sm text-base-content/70 text-right">{strategy.allocationAmount}</td>
+                <td className="p-3 text-sm font-medium text-base-content">{strategy.name}</td>
+                <td className="p-3 text-sm text-base-content/70">{strategy.protocol}</td>
+                <td className="p-3 text-sm font-medium text-base-content text-right">{strategy.apy}</td>
+                <td className="p-3 text-sm text-base-content/70 text-right">{strategy.amount}</td>
               </tr>
             ))}
           </tbody>
