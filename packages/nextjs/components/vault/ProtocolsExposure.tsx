@@ -1,36 +1,51 @@
 import React from "react";
 
-interface ProtocolData {
-  name: string;
+interface StrategyData {
   protocol: string;
-  apy: string;
-  amount: string;
+  strategy: string;
+  allocationPercent: string;
+  allocationAmount: string;
 }
 
 interface ProtocolsExposureProps {
-  protocols: ProtocolData[];
+  protocols: StrategyData[];
 }
 
 const ProtocolsExposure: React.FC<ProtocolsExposureProps> = ({ protocols }) => {
   return (
     <div className="bg-base-100 border border-base-300">
       <div className="p-4 border-b border-base-300 flex justify-between items-center">
-        <h3 className="font-medium">PROTOCOLS & EXCHANGES EXPOSURE</h3>
-        <button className="text-base-content/70 hover:text-base-content">⚙</button>
+        <h3 className="font-medium">Protocols & exchanges exposure</h3>
       </div>
-      <div className="divide-y divide-base-300">
-        {protocols.map((protocol, index) => (
-          <div key={index} className="p-3 flex justify-between items-center text-sm">
-            <div>
-              <div className="font-medium">{protocol.name}</div>
-              <div className="text-xs text-base-content/70">{protocol.protocol}</div>
-            </div>
-            <div className="text-right">
-              <div className="font-medium">{protocol.apy}</div>
-              <div className="text-xs text-base-content/70">{protocol.amount}</div>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-base-300">
+              <th className="p-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
+                Protocol
+              </th>
+              <th className="p-3 text-left text-xs font-medium text-base-content/70 uppercase tracking-wider">
+                Strategy
+              </th>
+              <th className="p-3 text-right text-xs font-medium text-base-content/70 uppercase tracking-wider">
+                Allocation (%)
+              </th>
+              <th className="p-3 text-right text-xs font-medium text-base-content/70 uppercase tracking-wider">
+                Allocation ($)
+              </th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-base-300">
+            {protocols.map((strategy, index) => (
+              <tr key={index} className="hover:bg-base-200/50">
+                <td className="p-3 text-sm font-medium text-base-content">{strategy.protocol}</td>
+                <td className="p-3 text-sm text-base-content/70">{strategy.strategy}</td>
+                <td className="p-3 text-sm font-medium text-base-content text-right">{strategy.allocationPercent}</td>
+                <td className="p-3 text-sm text-base-content/70 text-right">{strategy.allocationAmount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

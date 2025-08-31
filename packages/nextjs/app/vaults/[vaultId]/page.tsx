@@ -41,13 +41,10 @@ const VaultPage = () => {
     depositAssets: ["USDT", "USDC", "DAI", "USDT0"],
   };
 
-  const protocolsData = [
-    { name: "HyperLiquid", protocol: "HYPE basis trade", apy: "30.47%", amount: "$54.25M" },
-    { name: "Gho", protocol: "Cash", apy: "12.18%", amount: "$14.41M" },
-    { name: "HyperLiquid", protocol: "ETHW basis trade", apy: "11.25%", amount: "$15.42M" },
-    { name: "HyperLiquid", protocol: "PAYCOINS basis trade", apy: "10.15%", amount: "$32.06M" },
-    { name: "Folks", protocol: "BORROW VAULT", apy: "8.42%", amount: "$10.06M" },
-    { name: "HyperLend", protocol: "Supply USDT0", apy: "5.30%", amount: "$7.23M" },
+  const strategiesData = [
+    { protocol: "Compound", strategy: "cUSDT Supply", allocationPercent: "13.3%", allocationAmount: "$15.42M" },
+    { protocol: "Aave V3", strategy: "USDT Lending", allocationPercent: "12.4%", allocationAmount: "$14.41M" },
+    { protocol: "Yearn", strategy: "USDT Vault", allocationPercent: "8.7%", allocationAmount: "$10.06M" },
   ];
 
   const vaultDetails = {
@@ -116,15 +113,15 @@ const VaultPage = () => {
         </div>
 
         {/* Second Row - Expandable Sections and Technical Details */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {/* Left Column - Expandable Sections */}
-          <div className="space-y-6">
+          <div className="space-y-2">
             <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
           </div>
 
           {/* Right Column - Protocols and Vault Details */}
-          <div className="hidden lg:block space-y-6">
-            <ProtocolsExposure protocols={protocolsData} />
+          <div className="hidden lg:block space-y-2">
+            <ProtocolsExposure protocols={strategiesData} />
             <VaultDetails details={vaultDetails} />
           </div>
         </div>
@@ -132,7 +129,7 @@ const VaultPage = () => {
         {/* Mobile Only Content */}
         <div className="lg:hidden space-y-6 mt-6">
           <PerformanceChart isMobile={true} />
-          <ProtocolsExposure protocols={protocolsData} />
+          <ProtocolsExposure protocols={strategiesData} />
           <VaultDetails details={vaultDetails} />
         </div>
       </div>

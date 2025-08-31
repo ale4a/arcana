@@ -9,7 +9,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ isMobile = false, f
   let containerClass = "";
 
   if (isMobile) {
-    containerClass = "lg:hidden bg-base-100 border border-base-300 p-4 flex-1 bg-red-500";
+    containerClass = "lg:hidden bg-base-100 border border-base-300 p-4 h-64";
   } else if (fullHeight) {
     containerClass = "hidden lg:block bg-base-100 border border-base-300 p-4 h-full";
   } else {
@@ -18,7 +18,7 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ isMobile = false, f
 
   return (
     <div className={containerClass}>
-      <div className="flex items-center justify-center h-full vtext-center text-base-content/50">
+      <div className="flex items-center justify-center h-full text-center text-base-content/50">
         <div>
           <div className="text-sm mb-2">Performance Chart</div>
           <div className="text-xs">Chart visualization would go here</div>
