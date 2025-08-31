@@ -1,8 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useTheme } from "next-themes";
+import ScrollToTop from "~~/components/ScrollToTop";
 
 const HomePage = () => {
   const { resolvedTheme } = useTheme();
@@ -67,9 +69,11 @@ const HomePage = () => {
 
             {/* Right - Illustration */}
             <div className="flex justify-center lg:justify-end">
-              <img
+              <Image
                 src={isDark ? "/illustrations/dark/octopus-dark.svg" : "/illustrations/light/octopus-light.svg"}
                 alt="Arcana Vault"
+                width={384}
+                height={384}
                 className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 object-contain"
               />
             </div>
@@ -90,9 +94,11 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-error/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/whale-dark.svg" : "/illustrations/light/whale-light.svg"}
                   alt="Limited Liquidity"
+                  width={40}
+                  height={40}
                   className="w-6 h-6 sm:w-10 sm:h-10"
                 />
               </div>
@@ -104,9 +110,11 @@ const HomePage = () => {
 
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-warning/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/compass-dark.svg" : "/illustrations/light/compass-light.svg"}
                   alt="Manual Inefficiency"
+                  width={40}
+                  height={40}
                   className="w-6 h-6 sm:w-10 sm:h-10"
                 />
               </div>
@@ -118,9 +126,11 @@ const HomePage = () => {
 
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-12 h-12 sm:w-16 sm:h-16 bg-info/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/sword-dark.svg" : "/illustrations/light/sword-light.svg"}
                   alt="Lack of Tools"
+                  width={40}
+                  height={40}
                   className="w-6 h-6 sm:w-10 sm:h-10"
                 />
               </div>
@@ -228,9 +238,11 @@ const HomePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/ship-dark.svg" : "/illustrations/light/ship-light.svg"}
                   alt="Crosschain"
+                  width={32}
+                  height={32}
                   className="w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
@@ -242,9 +254,11 @@ const HomePage = () => {
 
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-accent/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/feather-dark.svg" : "/illustrations/light/feather-light.svg"}
                   alt="AI"
+                  width={32}
+                  height={32}
                   className="w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
@@ -256,9 +270,11 @@ const HomePage = () => {
 
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-success/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/book-dark.svg" : "/illustrations/light/book-light.svg"}
                   alt="DAO"
+                  width={32}
+                  height={32}
                   className="w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
@@ -270,9 +286,11 @@ const HomePage = () => {
 
             <div className="bg-base-100 p-4 sm:p-6 rounded-xl border border-base-300 text-center">
               <div className="w-10 h-10 sm:w-12 sm:h-12 bg-warning/10 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <img
+                <Image
                   src={isDark ? "/illustrations/dark/sword-dark.svg" : "/illustrations/light/sword-light.svg"}
                   alt="Security"
+                  width={32}
+                  height={32}
                   className="w-6 h-6 sm:w-8 sm:h-8"
                 />
               </div>
@@ -367,6 +385,9 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Scroll to Top Button */}
+      <ScrollToTop />
     </div>
   );
 };

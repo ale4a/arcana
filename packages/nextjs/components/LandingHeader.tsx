@@ -17,10 +17,6 @@ type HeaderMenuLink = {
 
 export const landingMenuLinks: HeaderMenuLink[] = [
   {
-    label: "Home",
-    href: "/",
-  },
-  {
     label: "Problem",
     href: "#problem",
   },
@@ -40,6 +36,7 @@ export const landingMenuLinks: HeaderMenuLink[] = [
 
 const LandingHeader = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(false);
   const burgerMenuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
@@ -49,13 +46,46 @@ const LandingHeader = () => {
   );
 
   const scrollToSection = (href: string) => {
-    if (href.startsWith("#")) {
+    if (href.startsWith("#") && !isScrolling) {
       const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: "smooth" });
+        setIsScrolling(true);
+
+        // Calcular la posición exacta
+        const navbarHeight = 80;
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
+
+        // Scroll suave con easing
+        const startPosition = window.pageYOffset;
+        const distance = elementPosition - startPosition;
+        const duration = 1000; // 1 segundo
+        let start: number | null = null;
+
+        const animation = (currentTime: number) => {
+          if (start === null) start = currentTime;
+          const timeElapsed = currentTime - start;
+          const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+          window.scrollTo(0, run);
+
+          if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+          } else {
+            setIsScrolling(false);
+          }
+        };
+
+        requestAnimationFrame(animation);
       }
     }
     setIsDrawerOpen(false);
+  };
+
+  // Función de easing para scroll más suave
+  const easeInOutCubic = (t: number, b: number, c: number, d: number) => {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t * t + b;
+    t -= 2;
+    return (c / 2) * (t * t * t + 2) + b;
   };
 
   return (
@@ -79,14 +109,22 @@ const LandingHeader = () => {
                 {href.startsWith("#") ? (
                   <button
                     onClick={() => scrollToSection(href)}
-                    className={cn("!text-base-content hover:!text-primary", isActive && "!text-primary")}
+                    disabled={isScrolling}
+                    className={cn(
+                      "!text-base-content hover:!text-primary transition-colors duration-200",
+                      isActive && "!text-primary",
+                      isScrolling && "opacity-50 cursor-not-allowed",
+                    )}
                   >
                     {label}
                   </button>
                 ) : (
                   <Link
                     href={href}
-                    className={cn("!text-base-content hover:!text-primary", isActive && "!text-primary")}
+                    className={cn(
+                      "!text-base-content hover:!text-primary transition-colors duration-200",
+                      isActive && "!text-primary",
+                    )}
                   >
                     {label}
                   </Link>
@@ -118,14 +156,22 @@ const LandingHeader = () => {
                     {href.startsWith("#") ? (
                       <button
                         onClick={() => scrollToSection(href)}
-                        className={cn("!text-base-content hover:!text-primary", isActive && "!text-primary")}
+                        disabled={isScrolling}
+                        className={cn(
+                          "!text-base-content hover:!text-primary transition-colors duration-200",
+                          isActive && "!text-primary",
+                          isScrolling && "opacity-50 cursor-not-allowed",
+                        )}
                       >
                         {label}
                       </button>
                     ) : (
                       <Link
                         href={href}
-                        className={cn("!text-base-content hover:!text-primary", isActive && "!text-primary")}
+                        className={cn(
+                          "!text-base-content hover:!text-primary transition-colors duration-200",
+                          isActive && "!text-primary",
+                        )}
                       >
                         {label}
                       </Link>
