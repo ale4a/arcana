@@ -39,13 +39,13 @@ const VaultPage = () => {
             onClick={openDepositModal}
             className="bg-primary text-primary-content px-6 py-3 font-medium hover:bg-primary/90 transition-colors"
           >
-            Deposit {vaultData.vaultName}
+            Deposit
           </button>
           <button
             onClick={openWithdrawModal}
             className="bg-base-300 text-base-content px-6 py-3 font-medium hover:bg-base-300/80 transition-colors"
           >
-            Withdraw {vaultData.vaultName}
+            Withdraw
           </button>
         </div>
 

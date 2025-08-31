@@ -49,32 +49,45 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
         {/* Amount Input */}
         <div>
           <label className="block text-sm font-light text-base-content/50 mb-2">Amount</label>
-          <div className="flex w-full gap-1">
-            <input
-              type="text"
-              value={amount}
-              onChange={e => setAmount(e.target.value)}
-              placeholder="0.00"
-              className="flex-1 bg-base-100 border border-base-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20"
-            />
-            <div className="bg-base-200 border border-base-300 px-3 py-2 border-l-0 text-sm font-medium flex items-center space-x-2">
-              <Image src="/tokens/ArcUSD.png" alt="ArcUSD" width={20} height={20} className="rounded-full" />
-              <span>ArcUSD</span>
+          <div className="w-full">
+            <div className="flex gap-1">
+              <input
+                type="text"
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="0.00"
+                className="flex-1 min-w-0 bg-base-100 border border-base-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20"
+              />
+              <div className="bg-base-200 border border-base-300 px-3 py-2 border-l-0 text-sm font-medium flex items-center space-x-2 whitespace-nowrap">
+                <Image
+                  src="/tokens/ArcUSD.png"
+                  alt="ArcUSD"
+                  width={20}
+                  height={20}
+                  className="rounded-full flex-shrink-0"
+                />
+                <span>ArcUSD</span>
+              </div>
             </div>
-          </div>
-          <div className="text-xs flex items-center justify-end text-base-content/70 mt-1">
-            <span className="mr-2 text-md">Balance: {userArcUSDBalance.toFixed(2)} ArcUSD</span>
-            <button onClick={handleMaxClick} className="bg-primary p-2">
-              MAX
-            </button>
+            <div className="text-xs flex items-center justify-end text-base-content/70 mt-1">
+              <span className="text-sm truncate">Balance: {userArcUSDBalance.toFixed(2)} ArcUSD</span>
+              <button
+                onClick={handleMaxClick}
+                className="bg-primary px-3 py-1 text-xs font-medium text-primary-content ml-2 flex-shrink-0"
+              >
+                MAX
+              </button>
+            </div>
           </div>
           <div>
             <label className="block text-sm font-light text-base-content/50 mb-2">Receive</label>
-            <TokenSelector
-              selectedToken={selectedReceiveToken}
-              onTokenSelect={setSelectedReceiveToken}
-              className="w-full"
-            />
+            <div className="w-full">
+              <TokenSelector
+                selectedToken={selectedReceiveToken}
+                onTokenSelect={setSelectedReceiveToken}
+                className="w-full"
+              />
+            </div>
           </div>
         </div>
 

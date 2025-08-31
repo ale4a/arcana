@@ -75,15 +75,15 @@ export const TokenSelector: React.FC<TokenSelectorProps> = ({ selectedToken, onT
         onClick={() => setIsOpen(!isOpen)}
         className="flex h-full items-center justify-between w-full bg-base-200 border border-base-300 px-3 py-2 hover:bg-base-200/80 transition-colors"
       >
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2 min-w-0">
           <Image
             src={selectedTokenData.logo}
             alt={selectedTokenData.symbol}
             width={20}
             height={20}
-            className="rounded-full"
+            className="rounded-full flex-shrink-0"
           />
-          <span className="font-medium text-base-content">{selectedTokenData.symbol}</span>
+          <span className="font-medium text-base-content truncate">{selectedTokenData.symbol}</span>
         </div>
         <svg
           className={`w-4 h-4 text-base-content/70 transition-transform ${isOpen ? "rotate-180" : ""}`}
@@ -97,23 +97,29 @@ export const TokenSelector: React.FC<TokenSelectorProps> = ({ selectedToken, onT
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-base-100 border border-base-300 z-50">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-base-100 border border-base-300 z-50 max-w-full">
           {tokens.map((token, index) => (
             <div key={token.symbol} className="relative">
               <button
                 onClick={() => handleTokenClick(token)}
                 disabled={!token.enabled}
                 className={`
-                  w-full flex items-center justify-between px-3 py-2 text-left transition-colors
+                  w-full flex items-center justify-between px-3 py-2 text-left transition-colors min-w-0
                   ${token.enabled ? "hover:bg-base-200 cursor-pointer" : "cursor-not-allowed opacity-50"}
                   ${selectedToken === token.symbol ? "bg-base-200" : ""}
                   ${index !== tokens.length - 1 ? "border-b border-base-300" : ""}
                 `}
                 title={!token.enabled ? "Próximamente" : ""}
               >
-                <div className="flex items-center space-x-2">
-                  <Image src={token.logo} alt={token.symbol} width={20} height={20} className="rounded-full" />
-                  <span className="font-medium text-base-content">{token.symbol}</span>
+                <div className="flex items-center space-x-2 min-w-0">
+                  <Image
+                    src={token.logo}
+                    alt={token.symbol}
+                    width={20}
+                    height={20}
+                    className="rounded-full flex-shrink-0"
+                  />
+                  <span className="font-medium text-base-content truncate">{token.symbol}</span>
                 </div>
 
                 {selectedToken === token.symbol && (
