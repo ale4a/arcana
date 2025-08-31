@@ -4,6 +4,16 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import DepositModal from "../../../components/ui/modals/DepositModal";
 import WithdrawModal from "../../../components/ui/modals/WithdrawModal";
+import {
+  ActionButtons,
+  ExpandableSections,
+  PerformanceChart,
+  ProtocolsExposure,
+  StatsCards,
+  UserStats,
+  VaultDetails,
+  VaultHeader,
+} from "../../../components/vault";
 import { useVaultModals } from "../../../hooks/useVaultModals";
 
 const VaultPage = () => {
@@ -81,273 +91,75 @@ const VaultPage = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-          {/* Left Column */}
-          <div className="lg:col-span-2 space-y-2">
-            {/* Vault Header */}
-            <div className="bg-base-100 border-[1px] border-base-300 p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <div className="w-8 h-8 bg-base-content text-base-100 rounded-full flex items-center justify-center text-sm font-bold">
-                  H
-                </div>
-                <h1 className="text-xl font-medium">{vaultData.vaultName}</h1>
-              </div>
-              <p className="text-sm text-base-content/70 leading-relaxed">{vaultData.description}</p>
-            </div>
+        {/* First Row - Main Vault Info and Performance Chart */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-4">
+          {/* Left Column - Vault Info */}
+          <div className="space-y-2">
+            <VaultHeader vaultName={vaultData.vaultName} description={vaultData.description} token={vaultData.token} />
 
-            {/* Stats Cards */}
-            <div className="grid grid-cols-2 gap-4">
-              {/* APY Card */}
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="flex justify-between items-start mb-2">
-                  <span className="text-2xl font-bold">{vaultData.apy}%</span>
-                  <div className="flex space-x-1">
-                    <span className="text-xs bg-base-200 px-2 py-1">APY</span>
-                    <span className="text-xs bg-base-200 px-2 py-1">TVL</span>
-                  </div>
-                </div>
-                <span className="text-xs text-base-content/70">APY ⓘ</span>
-              </div>
+            <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
 
-              {/* TVL Card */}
-              <div className="bg-base-100 border border-base-300 p-4">
-                <span className="text-2xl font-bold">${vaultData.tvl}M</span>
-                <div className="text-xs text-base-content/70 mt-2">TVL</div>
-              </div>
-            </div>
+            <UserStats
+              yourValue={vaultData.yourValue}
+              yieldEarned={vaultData.yieldEarned}
+              unboost={vaultData.unboost}
+              depositAssets={vaultData.depositAssets}
+            />
 
-            {/* User Stats */}
-            <div className="grid grid-cols-3 gap-4">
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">YOUR $ VALUE</div>
-                <div className="font-medium">${vaultData.yourValue.toFixed(2)}</div>
-              </div>
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">YIELD EARNED</div>
-                <div className="font-medium">${vaultData.yieldEarned.toFixed(2)}</div>
-              </div>
-              <div className="bg-base-100 border border-base-300 p-4">
-                <div className="text-sm text-base-content/70 mb-1">arcUSDC</div>
-                <div className="font-medium">{vaultData.unboost.toFixed(2)}</div>
-                <div className="flex mt-2 space-x-1">
-                  {vaultData.depositAssets.map((asset, index) => (
-                    <div
-                      key={index}
-                      className="w-5 h-5 bg-base-300 rounded-full flex items-center justify-center text-xs"
-                    >
-                      {asset.charAt(0)}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Action Buttons - Desktop */}
-            <div className="hidden md:grid grid-cols-2 gap-4">
-              <button
-                onClick={openDepositModal}
-                className="bg-primary border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
-              >
-                DEPOSIT
-              </button>
-              <button
-                onClick={openWithdrawModal}
-                className="bg-primary border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
-              >
-                WITHDRAW
-              </button>
-            </div>
-
-            {/* Expandable Sections */}
-            <div className="space-y-4">
-              {/* Hyperbeat Rewards */}
-              <div className="bg-base-100 border border-base-300">
-                <button
-                  onClick={() => toggleSection("rewards")}
-                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
-                >
-                  <span className="font-medium">HYPERBEAT REWARDS</span>
-                  <span className="text-xl">{expandedSections.rewards ? "−" : "+"}</span>
-                </button>
-                {expandedSections.rewards && (
-                  <div className="p-4 border-t border-base-300">
-                    <p className="text-sm text-base-content/70">
-                      Earn additional rewards through the Hyperbeat protocol.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* How it Works */}
-              <div className="bg-base-100 border border-base-300">
-                <button
-                  onClick={() => toggleSection("howItWorks")}
-                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
-                >
-                  <span className="font-medium">HOW IT WORKS?</span>
-                  <span className="text-xl">{expandedSections.howItWorks ? "−" : "+"}</span>
-                </button>
-                {expandedSections.howItWorks && (
-                  <div className="p-4 border-t border-base-300">
-                    <p className="text-sm text-base-content/70">
-                      Automated DeFi strategy that dynamically allocates capital across multiple protocols to maximize
-                      yield.
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {/* FAQ */}
-              <div className="bg-base-100 border border-base-300">
-                <button
-                  onClick={() => toggleSection("faq")}
-                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
-                >
-                  <span className="font-medium">FAQ</span>
-                  <span className="text-xl">{expandedSections.faq ? "−" : "+"}</span>
-                </button>
-                {expandedSections.faq && (
-                  <div className="p-4 border-t border-base-300">
-                    <div className="space-y-3 text-sm">
-                      <div>
-                        <div className="font-medium mb-1">What is the USDT vault?</div>
-                        <div className="text-base-content/70">
-                          A yield-generating vault that optimizes returns on USDT deposits.
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-medium mb-1">What happens to deposited assets?</div>
-                        <div className="text-base-content/70">
-                          Assets are allocated across various DeFi protocols to generate yield.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Audits */}
-              <div className="bg-base-100 border border-base-300">
-                <button
-                  onClick={() => toggleSection("audits")}
-                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
-                >
-                  <span className="font-medium">AUDITS</span>
-                  <span className="text-xl">{expandedSections.audits ? "−" : "+"}</span>
-                </button>
-                {expandedSections.audits && (
-                  <div className="p-4 border-t border-base-300">
-                    <p className="text-sm text-base-content/70">
-                      Security audits and risk assessments available in documentation.
-                    </p>
-                  </div>
-                )}
-              </div>
-            </div>
+            <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} />
           </div>
 
-          {/* Right Column */}
-          <div className="space-y-6 lg:col-span-2">
-            {/* Chart Placeholder */}
-            <div className="bg-base-100 border border-base-300 p-4 h-64 flex items-center justify-center">
-              <div className="text-center text-base-content/50">
-                <div className="text-sm mb-2">Performance Chart</div>
-                <div className="text-xs">Chart visualization would go here</div>
-              </div>
-            </div>
-
-            {/* Protocols & Exchanges Exposure */}
-            <div className="bg-base-100 border border-base-300">
-              <div className="p-4 border-b border-base-300 flex justify-between items-center">
-                <h3 className="font-medium">PROTOCOLS & EXCHANGES EXPOSURE</h3>
-                <button className="text-base-content/70 hover:text-base-content">⚙</button>
-              </div>
-              <div className="divide-y divide-base-300">
-                {protocolsData.map((protocol, index) => (
-                  <div key={index} className="p-3 flex justify-between items-center text-sm">
-                    <div>
-                      <div className="font-medium">{protocol.name}</div>
-                      <div className="text-xs text-base-content/70">{protocol.protocol}</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-medium">{protocol.apy}</div>
-                      <div className="text-xs text-base-content/70">{protocol.amount}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Vault Details */}
-            <div className="bg-base-100 border border-base-300">
-              <div className="p-4 border-b border-base-300">
-                <h3 className="font-medium">VAULT DETAILS</h3>
-              </div>
-              <div className="p-4 space-y-3 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-base-content/70">Strategic</span>
-                  <span className="font-medium">{vaultDetails.strategic}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-base-content/70">Platform Fee</span>
-                  <span className="font-medium">{vaultDetails.platform}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-base-content/70">Withdrawal Period</span>
-                  <span className="font-medium">{vaultDetails.withdrawal}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-base-content/70">Deposit Lock Period</span>
-                  <span className="font-medium">{vaultDetails.deposit}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-base-content/70">Exchange Rate</span>
-                  <span className="font-medium">{vaultDetails.exchange}</span>
-                </div>
-              </div>
-            </div>
+          {/* Right Column - Performance Chart */}
+          <div className="hidden lg:flex lg:flex-col">
+            <PerformanceChart isMobile={false} fullHeight={true} />
           </div>
         </div>
 
-        {/* Mobile Action Buttons - Sticky Footer */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 p-4 z-40">
-          <div className="grid grid-cols-2 gap-3 mx-auto">
-            <button
-              onClick={openDepositModal}
-              className="bg-primary text-primary-content py-3 px-4 text-center font-medium hover:bg-primary/90 transition-colors"
-            >
-              DEPOSIT
-            </button>
-            <button
-              onClick={openWithdrawModal}
-              className="bg-primary text-primary-content py-3 px-4 text-center font-medium hover:bg-primary/90 transition-colors"
-            >
-              WITHDRAW
-            </button>
+        {/* Second Row - Expandable Sections and Technical Details */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left Column - Expandable Sections */}
+          <div className="space-y-6">
+            <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
+          </div>
+
+          {/* Right Column - Protocols and Vault Details */}
+          <div className="hidden lg:block space-y-6">
+            <ProtocolsExposure protocols={protocolsData} />
+            <VaultDetails details={vaultDetails} />
           </div>
         </div>
 
-        {/* Mobile padding bottom to avoid content being hidden behind sticky footer */}
-        <div className="md:hidden h-20"></div>
-
-        {/* Modals */}
-        <DepositModal
-          isOpen={isDepositOpen}
-          onClose={closeModal}
-          vaultName={vaultData.vaultName}
-          userBalance={vaultData.userBalance}
-          apy={vaultData.apy / 100}
-          onDeposit={handleDeposit}
-        />
-
-        <WithdrawModal
-          isOpen={isWithdrawOpen}
-          onClose={closeModal}
-          vaultName={vaultData.vaultName}
-          userArcUSDBalance={vaultData.userArcUSDBalance}
-          onWithdraw={handleWithdraw}
-        />
+        {/* Mobile Only Content */}
+        <div className="lg:hidden space-y-6 mt-6">
+          <PerformanceChart isMobile={true} />
+          <ProtocolsExposure protocols={protocolsData} />
+          <VaultDetails details={vaultDetails} />
+        </div>
       </div>
+
+      {/* Mobile Action Buttons - Sticky Footer */}
+      <ActionButtons onDeposit={openDepositModal} onWithdraw={openWithdrawModal} isMobile={true} />
+
+      {/* Mobile padding bottom to avoid content being hidden behind sticky footer */}
+      <div className="md:hidden h-20"></div>
+
+      {/* Modals */}
+      <DepositModal
+        isOpen={isDepositOpen}
+        onClose={closeModal}
+        vaultName={vaultData.vaultName}
+        userBalance={vaultData.userBalance}
+        apy={vaultData.apy / 100}
+        onDeposit={handleDeposit}
+      />
+
+      <WithdrawModal
+        isOpen={isWithdrawOpen}
+        onClose={closeModal}
+        vaultName={vaultData.vaultName}
+        userArcUSDBalance={vaultData.userArcUSDBalance}
+        onWithdraw={handleWithdraw}
+      />
     </div>
   );
 };
