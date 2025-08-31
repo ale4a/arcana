@@ -1,115 +1,220 @@
-<div align="left">
-  <a href="https://lisk.com"><img alt="Lisk" src="./packages/nextjs/public/readme-banner.png" width="100%"></a>
-</div>
+# 🏛️ Arcana Vault
 
-<br />
+**A sophisticated ERC4626 vault with pluggable investment strategies for Lisk DeFi yield optimization**
 
-Scaffold-Lisk is a fork of Scaffold-OP with minimal differences, providing additional dApp examples, native support for Superchain testnets, and more low-level instructions. We highly recommend the Scaffold-ETH2 docs as the primary guideline.
+Arcana is a yield aggregator built for the Lisk ecosystem that allows users to deposit Lisk tokens and automatically deploy them across multiple Lisk DeFi protocols through a unified interface. Built with security, efficiency, and composability in mind for the Lisk community.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+## Aleph Hackaton
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+- Verified Lisk Mainnet Contract: [Arcana](https://blockscout.lisk.com/address/0x22EC63533e99f6CEf08DEBa30cf67cd9982cb2E2)
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+## 🎯 Use Cases
 
-<div align="center" style="margin-top: 24px;">
-  <img alt="App demo" src="./packages/nextjs/public/scaffold-lisk-landing.png" width="100%">
-</div>
+- **Lisk Yield Farming**: Automatically deploy Lisk capital across multiple yield-generating protocols
+- **Risk Management**: Diversify exposure across different Lisk DeFi strategies
+- **Capital Efficiency**: Optimize returns through intelligent rebalancing of Lisk assets
+- **Simplified Lisk DeFi**: Single interface for multiple Lisk protocol interactions
+- **Institutional Lisk DeFi**: Professional-grade vault for large Lisk capital deployment
 
-## Requirements
+## 🚀 Key Features
 
-Before you begin, you need to install the following tools:
+### ✨ ERC4626 Compliance
+- Standard tokenized vault interface
+- Seamless integration with DeFi protocols
+- Predictable share calculation and redemption
 
-- [Node (>= v18.17)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+### 🔌 Pluggable Lisk Strategies
+- **MorphoStrategy**: Integration with Morpho MetaMorpho vaults on Lisk
+- **RasaStrategy**: Integration with Aave-like lending pools on Lisk
+- Easy to add new Lisk ecosystem strategies through the `IInvestStrategy` interface
 
-## Quickstart
+### ⚖️ Dynamic Rebalancing
+- Move Lisk assets between strategies based on market conditions
+- Optimize for highest yields across Lisk protocols
+- Maintain risk-adjusted returns for Lisk token holders
 
-To get started with Scaffold-Lisk, follow the steps below:
+### 🛡️ Security Features
+- Owner-controlled strategy management
+- Emergency withdrawal capabilities
+- Comprehensive testing suite
 
-1. Clone this repo & install dependencies
-
-```
-git clone https://github.com/LiskHQ/scaffold-lisk.git
-cd scaffold-lisk
-yarn install
-```
-
-2. Run a local network in the first terminal:
+## 🏗️ Architecture
 
 ```
-yarn chain
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   User Assets   │───▶│  Arcana Vault   │───▶│   Strategies    │
+│                 │    │   (ERC4626)     │    │                 │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
+                                │                       │
+                                ▼                       ▼
+                       ┌─────────────────┐    ┌─────────────────┐
+                       │  Rebalancing    │    │  Yield Sources  │
+                       │   Engine        │    │                 │
+                       └─────────────────┘    └─────────────────┘
 ```
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `hardhat.config.ts`.
+## 📊 Lisk Strategy Details
 
-3. On a second terminal, deploy the test contract:
+### 🦋 MorphoStrategy (Lisk Ecosystem)
+- **Protocol**: Morpho MetaMorpho vaults on Lisk
+- **Yield Source**: Lisk lending and borrowing optimization
+- **Risk Profile**: Medium (diversified Lisk lending positions)
+- **Key Features**: 
+  - Automated Lisk position management
+  - Gas-efficient Lisk operations
+  - Real-time Lisk yield optimization
 
+### 🌊 RasaStrategy (Lisk Ecosystem)
+- **Protocol**: Aave-like lending pools on Lisk
+- **Yield Source**: Lisk supply-side lending rewards
+- **Risk Profile**: Low (collateralized Lisk lending)
+- **Key Features**:
+  - Stable Lisk lending yields
+  - Liquid Lisk collateral
+  - Proven Lisk protocol security
+
+## 🛠️ Development
+
+### Prerequisites
+- Scaffold-ETH 2
+- Hardhat (latest version)
+- Node.js 22+
+- Git
+
+### Installation
+```bash
+git clone <repository-url>
+cd arcana
+npm install
+cd packages/hardhat
 ```
-yarn deploy
+
+### Build
+```bash
+npx hardhat compile
 ```
 
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
+### Test
+```bash
+# Run all tests
+npx hardhat test
 
-4. On the same terminal, start your NextJS app:
+# Run specific test file
+npx hardhat test test/Arcana.test.js
 
+# Run with verbose output
+npx hardhat test --verbose
 ```
-yarn start
+
+### Deploy
+```bash
+# Deploy to mainnet
+npx hardhat run scripts/deploy.js --network mainnet
+
+# Deploy to testnet
+npx hardhat run scripts/deploy.js --network sepolia
+
+# Deploy to local network
+npx hardhat run scripts/deploy.js --network localhost
 ```
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+## 📈 Lisk Usage Examples
 
-Run smart contract test with `yarn hardhat:test`
+### Basic Lisk Deposit
+```javascript
+// Approve Lisk tokens
+await liskToken.approve(arcana.address, amount);
 
-- Edit your smart contract `YourContract.sol` in `packages/hardhat/contracts`
-- Edit your frontend in `packages/nextjs/pages`
-- Edit your deployment scripts in `packages/hardhat/deploy`
+// Deposit Lisk and receive vault shares
+const shares = await arcana.deposit(amount, receiver);
+```
 
-## Deploy Contracts to Superchain Testnet(s)
+### Lisk Strategy Rebalancing
+```javascript
+// Move 1000 Lisk tokens from Morpho (index 0) to Rasa (index 1)
+await arcana.rebalance(0, 1, ethers.utils.parseEther("1000"));
+```
 
-To deploy contracts to a remote testnet (e.g. Optimism Sepolia), follow the steps below:
+### Lisk Withdrawal
+```javascript
+// Withdraw Lisk assets by burning shares
+const liskAssets = await arcana.withdraw(shares, receiver, owner);
+```
 
-1. Get Superchain Sepolia ETH from the [Superchain Faucet](https://app.optimism.io/faucet)
+### Lisk Frontend Integration
+```typescript
+// Using wagmi hooks for Lisk integration
+const { writeAsync: depositAsync } = useScaffoldContractWrite({
+  contractName: "Arcana",
+  functionName: "deposit",
+  args: [amount, address],
+});
 
-2. Inside the `packages/hardhat` directory, copy `.env.example` to `.env`.
+// Lisk deposit function
+const handleLiskDeposit = async (amount: string) => {
+  const amountInWei = parseEther(amount);
+  await depositAsync({ args: [amountInWei, address] });
+};
+```
 
-   ```bash
-   cd packages/hardhat && cp .env.example .env
-   ```
+## 🔍 Testing
 
-3. Edit your `.env` to specify the environment variables. Only specifying the `DEPLOYER_PRIVATE_KEY` is necessary here. The contract will be deployed from the address associated with this private key, so make sure it has enough Sepolia ETH.
+The project includes comprehensive tests covering:
 
-   ```bash
-   DEPLOYER_PRIVATE_KEY = "your_private_key_with_sepolia_ETH";
-   ```
+- ✅ Lisk vault deposit/withdraw functionality
+- ✅ Lisk strategy integration (Morpho & Rasa)
+- ✅ Lisk rebalancing operations
+- ✅ Edge cases and error conditions for Lisk operations
+- ✅ Mock Lisk contract interactions
 
-4. Inside `scaffold-lisk`, run
+### Test Structure
+```
+packages/hardhat/test/
+├── Arcana.test.t.sol            # Unit tests for vault functionality
+├── ArcanaIntegration.test.sol # Integration tests with real protocols
+└── mocks/
+    ├── MockToken.sol         # ERC20 token for testing
+    ├── MockMorphoVault.sol   # Morpho vault simulation
+    └── MockRasaPool.sol      # Rasa pool simulation
+```
 
-   ```bash
-   yarn deploy --network-options
-   ```
+## 🔧 Configuration
 
-   Use spacebar to make your selection(s). This command deploys all smart contracts in `packages/hardhat/contracts` to the selected network(s). Alternatively, you can try
+### Lisk Strategy Parameters
+- **MorphoStrategy**: Requires Morpho vault address and Lisk token
+- **RasaStrategy**: Requires Rasa pool address and Lisk token
+- **Rebalancing**: Owner-controlled with configurable thresholds for Lisk assets
 
-   ```bash
-   yarn deploy --network networkName
-   ```
+### Gas Optimization
+- Efficient batch operations
+- Minimal external calls
+- Optimized storage patterns
 
-   Network names are found in `hardhat.config.js`. Please ensure you have enough Sepolia ETH on all these Superchains. If the deployments are successful, you will see the deployment tx hash on the terminal.
+## 🚨 Security Considerations
 
-## Adding Foundry
+- **Access Control**: Owner-only Lisk strategy management
+- **Reentrancy Protection**: Standard OpenZeppelin patterns for Lisk operations
+- **Slippage Protection**: Configurable limits for large Lisk operations
+- **Emergency Functions**: Quick Lisk withdrawal capabilities
 
-Hardhat's NodeJS stack and cleaner deployment management makes it a better default for Scaffold-Lisk.
+## 📝 License
 
-To add Foundry to Scaffold-Lisk, follow this simple [tutorial](https://hardhat.org/hardhat-runner/docs/advanced/hardhat-and-foundry) by Hardhat. We recommend users who want more robust and faster testing to add Foundry.
+MIT License - see LICENSE file for details
 
-## Documentation
+## 🤝 Contributing
 
-We highly recommend visiting the original [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
+1. Fork the repository
+2. Create a feature branch
+3. Add tests for new functionality
+4. Ensure all tests pass
+5. Submit a pull request
 
-To know more about its features, check out their [website](https://scaffoldeth.io).
+## 📞 Support
+
+- **Issues**: GitHub Issues
+- **Discussions**: GitHub Discussions
+- **Documentation**: Inline code comments and this README
+
+---
+
+**Built with ❤️ for the Lisk community**
