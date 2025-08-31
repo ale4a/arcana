@@ -1,57 +1,71 @@
 "use client";
 
-export default function HeroSection() {
+import React from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useTheme } from "next-themes";
+
+const HeroSection = () => {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = resolvedTheme === "dark";
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
-    <section className="relative min-h-screen bg-base-100 dark:bg-base-100 flex items-center justify-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+    <section className="relative overflow-hidden min-h-[calc(100vh-80px)] flex items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 lg:py-8 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-0 lg:gap-12 items-center">
+          {/* Left Content */}
+          <div className="text-center lg:text-left space-y-6 col-span-2">
+            <div className="space-y-4">
+              <h1 className="text-5xl sm:text-6xl lg:text-5xl font-bold text-base-content leading-tight">
+                Asset Management <span className="text-primary">Like Never Before</span>
+              </h1>
+              <p className="text-xl sm:text-2xl lg:text-3xl text-base-content/70 leading-relaxed">
+                Scaling yield safely for large volumes of capital
+              </p>
+            </div>
 
-      <div className="relative z-10 text-center max-w-4xl mx-auto px-6">
-        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-base-content dark:text-base-content mb-8 tracking-tight">
-          We&apos;re Scaling DeFi.
-        </h1>
-
-        <div className="mb-12 space-y-6">
-          <p className="text-xl md:text-2xl lg:text-3xl text-base-content/80 dark:text-base-content/80 leading-relaxed max-w-3xl mx-auto font-light">
-            Arcana ayuda a las organizaciones a asegurar, gestionar y hacer crecer sus activos onchain. Estamos
-            construyendo la mayor red de liquidez en cripto para apoyar los objetivos estratégicos de tu proyecto.
-          </p>
-        </div>
-
-        <div className="mb-16">
-          <div className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary dark:text-primary mb-2">
-            $1,000,000,000
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+              <Link
+                href="/vaults"
+                className="inline-flex items-center justify-center px-8 py-4 bg-primary text-primary-content font-semibold rounded-lg hover:bg-primary-focus transition-colors text-lg"
+              >
+                Explore Vaults
+              </Link>
+              <a
+                href="https://puddle-feverfew-e8a.notion.site/Arcana-Whitepaper-2607f7e814af80439387cc6e0e5a0f34?source=copy_link"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-8 py-4 border border-base-300 text-base-content font-semibold rounded-lg hover:bg-base-200 transition-colors text-lg"
+              >
+                Read Whitepaper
+              </a>
+            </div>
           </div>
-          <div className="text-lg md:text-xl text-base-content/70 dark:text-base-content/70 font-medium">
-            DeFi Treasury Network
-          </div>
-          <div className="text-base md:text-lg text-base-content/60 dark:text-base-content/60 mt-2">
-            Non-custodial products and solutions to support your onchain financial operations
+
+          {/* Right - Illustration */}
+          <div className="flex justify-center lg:justify-end col-span-1 mt-4">
+            <Image
+              src={isDark ? "/illustrations/dark/octopus-dark.svg" : "/illustrations/light/octopus-light.svg"}
+              alt="Arcana Vault"
+              width={384}
+              height={384}
+              className="w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 object-contain"
+            />
           </div>
         </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <button className="bg-primary hover:bg-primary/90 text-primary-content font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105 shadow-lg">
-            Get Started
-          </button>
-          <button className="border-2 border-base-content/20 hover:border-primary text-base-content dark:text-base-content font-semibold px-8 py-4 text-lg rounded-lg transition-all duration-300 hover:scale-105">
-            Learn More
-          </button>
-        </div>
-      </div>
-
-      {/* Subtle background pattern */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.02] dark:opacity-[0.03]">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(0, 0, 0, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "100px 100px",
-          }}
-        />
       </div>
     </section>
   );
-}
+};
+
+export default HeroSection;

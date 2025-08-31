@@ -52,7 +52,7 @@ const LandingHeader = () => {
         setIsScrolling(true);
 
         // Calcular la posición exacta
-        const navbarHeight = 80;
+        const navbarHeight = 70;
         const elementPosition = element.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
 
         // Scroll suave con easing
@@ -91,12 +91,12 @@ const LandingHeader = () => {
   return (
     <div className="sticky top-0 z-50 flex justify-center navbar bg-base-100/80 backdrop-blur-md border-b border-base-300">
       <div className="navbar-start">
-        <div className="hidden sm:flex items-center gap-2 mr-6">
+        <Link href="/" passHref className="hidden lg:flex items-center gap-1 ml-4 mr-6 shrink-0">
           <Logo />
-        </div>
-        <div className="dropdown sm:hidden">
+        </Link>
+        <div className="dropdown lg:hidden">
           <div tabIndex={0} role="button" className="btn btn-ghost">
-            <Logo />
+            <Logo showArcana={false} />
           </div>
         </div>
       </div>
@@ -147,7 +147,7 @@ const LandingHeader = () => {
           {isDrawerOpen && (
             <ul
               tabIndex={0}
-              className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+              className="menu border-base-300 border menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               {landingMenuLinks.map(({ label, href }) => {
                 const isActive = pathname === href;
