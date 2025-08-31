@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Logo } from "./Logo";
 import { SwitchTheme } from "./SwitchTheme";
-import { Bars3Icon, BugAntIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import {
   // DappConsoleButton,
   // FaucetButton,
@@ -21,15 +21,24 @@ type HeaderMenuLink = {
 };
 
 export const menuLinks: HeaderMenuLink[] = [
+  // {
+  //   label: "Home",
+  //   href: "/",
+  //   icon: <HomeIcon className="h-4 w-4" />,
+  // },
+  // {
+  //   label: "Debug Contracts",
+  //   href: "/debug",
+  //   icon: <BugAntIcon className="h-4 w-4" />,
+  // },
   {
-    label: "Home",
-    href: "/",
-    icon: <HomeIcon className="h-4 w-4" />,
+    label: "Vaults",
+    href: "/vaults",
+    // icon: <VaultIcon className="h-4 w-4" />,
   },
   {
-    label: "Debug Contracts",
-    href: "/debug",
-    icon: <BugAntIcon className="h-4 w-4" />,
+    label: "Portafolio",
+    href: "/portafolio",
   },
 ];
 

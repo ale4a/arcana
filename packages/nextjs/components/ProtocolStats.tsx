@@ -23,12 +23,12 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({ stats = defaultSta
   return (
     <div className={`bg-base-200 border border-base-300 ${className}`}>
       <div className="p-4 text-base-content">
-        <div className="flex justify-between items-center mb-3">
+        {/* <div className="flex justify-between items-center mb-3">
           <div className="flex items-center space-x-2">
             <div className="w-2 h-2 bg-success rounded-full animate-pulse"></div>
             <span className="text-xs font-medium uppercase tracking-wide text-success">LIVE</span>
           </div>
-        </div>
+        </div> */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 text-sm">
           {stats.map((stat, index) => (
             <div key={index}>
