@@ -11,7 +11,7 @@ const imageUrl = `${baseUrl}/thumbnail.jpg`;
 
 const title = "Arcana App";
 const titleTemplate = "%s | Arcana";
-const description = "Built with 🏗 Arcana";
+const description = "Asset Management Platform";
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
