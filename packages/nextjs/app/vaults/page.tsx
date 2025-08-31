@@ -14,6 +14,7 @@ interface Vault {
   rewards: number;
   token: string;
   vaultId: string;
+  isAvailable: boolean;
 }
 
 const mockVaults: Vault[] = [
@@ -26,6 +27,7 @@ const mockVaults: Vault[] = [
     rewards: 0.127,
     token: "USDT0",
     vaultId: "usdt0",
+    isAvailable: false,
   },
   {
     id: "2",
@@ -36,6 +38,7 @@ const mockVaults: Vault[] = [
     rewards: 108.75,
     token: "USDT",
     vaultId: "usdt",
+    isAvailable: false,
   },
   {
     id: "3",
@@ -46,6 +49,7 @@ const mockVaults: Vault[] = [
     rewards: 615.0,
     token: "LSK",
     vaultId: "lsk",
+    isAvailable: true,
   },
   {
     id: "4",
@@ -56,6 +60,7 @@ const mockVaults: Vault[] = [
     rewards: 123.45,
     token: "USDCE",
     vaultId: "usdce",
+    isAvailable: false,
   },
 ];
 
@@ -153,7 +158,12 @@ const VaultsPage = () => {
                     <td className="p-4">
                       <button
                         onClick={() => handleDeposit(vault.vaultId)}
-                        className="bg-primary text-primary-content font-medium py-2 px-4 border border-primary hover:bg-primary/90 transition-colors uppercase tracking-wide"
+                        disabled={!vault.isAvailable}
+                        className={`${
+                          vault.isAvailable
+                            ? "bg-primary text-primary-content font-medium py-2 px-4 border border-primary hover:bg-primary/90 transition-colors uppercase tracking-wide"
+                            : "bg-transparent text-gray-500 cursor-not-allowed font-medium py-2 px-4 border border-base-300 hover:bg-base-200/90 transition-colors uppercase tracking-wide"
+                        }`}
                       >
                         DEPOSIT
                       </button>

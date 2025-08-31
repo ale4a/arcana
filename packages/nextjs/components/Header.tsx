@@ -56,7 +56,7 @@ export const HeaderMenuLinks = () => {
               passHref
               className={cn(
                 "relative flex items-center justify-between px-4 py-2 text-sm transition-colors duration-200",
-                isActive ? "bg-base-100 primary-content" : "text-slate-400",
+                isActive ? "bg-base-100 primary-content" : "",
               )}
             >
               {icon}

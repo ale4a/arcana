@@ -21,7 +21,7 @@ const defaultStats: StatItem[] = [
 
 export const ProtocolStats: React.FC<ProtocolStatsProps> = ({ stats = defaultStats, className = "" }) => {
   return (
-    <div className={`bg-base-200 border border-base-300 ${className}`}>
+    <div className={`border border-base-300 ${className}`}>
       <div className="p-4 text-base-content">
         {/* <div className="flex justify-between items-center mb-3">
           <div className="flex items-center space-x-2">
