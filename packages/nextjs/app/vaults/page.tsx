@@ -3,7 +3,6 @@
 import React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ProtocolStats } from "~~/components/ProtocolStats";
 
 interface Vault {
   id: string;
@@ -80,7 +79,7 @@ const VaultsPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-base-100 p-6">
+    <div className="h-full p-6">
       <div className="max-w-7xl mx-auto">
         {/* Vaults Table */}
         <div className="bg-base-100 border border-base-300 overflow-hidden">
@@ -174,9 +173,6 @@ const VaultsPage = () => {
             </table>
           </div>
         </div>
-
-        <ProtocolStats className="mt-4" />
-        {/* Footer Links */}
       </div>
     </div>
   );
