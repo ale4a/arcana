@@ -107,7 +107,7 @@ const VaultsPage = () => {
                           {vault.token}
                         </div> */}
                         <Image
-                          src={`/tokens/${vault.token}.png`}
+                          src={`/tokens/${vault.vaultId}.png`}
                           alt={vault.token}
                           width={20}
                           height={20}
