@@ -27,10 +27,10 @@ const VaultPage = () => {
 
   // Mock data
   const vaultData = {
-    vaultName: "Hyperbeat USDT",
-    token: "USDT",
+    vaultName: "Arcana Lisk",
+    token: "LSK",
     description:
-      "The best risk-adjusted return on your USDT, dynamically allocating capital through strategies typically exclusive to institutions now democratized for all.",
+      "The best risk-adjusted return on your LSK, dynamically allocating capital through strategies typically exclusive to institutions now democratized for all.",
     apy: 9.51,
     tvl: 115.93,
     yourValue: 0.0,
