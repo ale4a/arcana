@@ -115,7 +115,7 @@ const VaultPage = () => {
         {/* Second Row - Expandable Sections and Technical Details */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
           {/* Left Column - Expandable Sections */}
-          <div className="space-y-2">
+          <div className="space-y-4">
             <ExpandableSections expandedSections={expandedSections} toggleSection={toggleSection} />
           </div>
 
