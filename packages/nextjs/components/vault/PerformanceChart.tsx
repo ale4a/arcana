@@ -143,20 +143,20 @@ const PerformanceChart: React.FC<PerformanceChartProps> = ({ isMobile = false, f
     { date: "12/8", apy: 8.0, tvl: 218.0 }, // Caída
     { date: "13/8", apy: 7.5, tvl: 213.4 }, // Caída
     { date: "14/8", apy: 7.0, tvl: 208.9 }, // Caída
-    { date: "15/8", apy: 6.5, tvl: 204.5 }, // Caída
-    { date: "16/8", apy: 6.0, tvl: 200.2 }, // Caída
-    { date: "17/8", apy: 5.5, tvl: 196.0 }, // Caída
-    { date: "18/8", apy: 5.0, tvl: 191.9 }, // Caída
-    { date: "19/8", apy: 4.5, tvl: 187.9 }, // Caída
-    { date: "20/8", apy: 4.0, tvl: 184.0 }, // Caída
-    { date: "21/8", apy: 3.5, tvl: 180.2 }, // Caída
-    { date: "22/8", apy: 3.0, tvl: 176.5 }, // Caída
-    { date: "23/8", apy: 2.5, tvl: 172.9 }, // Caída
-    { date: "24/8", apy: 2.0, tvl: 169.4 }, // Caída
-    { date: "25/8", apy: 1.5, tvl: 166.0 }, // Caída
-    { date: "26/8", apy: 1.0, tvl: 162.7 }, // Caída
-    { date: "27/8", apy: 0.5, tvl: 159.5 }, // Caída
-    { date: "28/8", apy: 0.0, tvl: 156.4 }, // Caída final
+    { date: "15/8", apy: 7.5, tvl: 204.5 }, // Caída
+    { date: "16/8", apy: 7.0, tvl: 200.2 }, // Caída
+    { date: "17/8", apy: 9.5, tvl: 196.0 }, // Caída
+    { date: "18/8", apy: 9.0, tvl: 191.9 }, // Caída
+    { date: "19/8", apy: 9.5, tvl: 187.9 }, // Caída
+    { date: "20/8", apy: 9.0, tvl: 184.0 }, // Caída
+    { date: "21/8", apy: 8.5, tvl: 180.2 }, // Caída
+    { date: "22/8", apy: 8.0, tvl: 176.5 }, // Caída
+    { date: "23/8", apy: 9.5, tvl: 172.9 }, // Caída
+    { date: "24/8", apy: 9.0, tvl: 169.4 }, // Caída
+    { date: "25/8", apy: 9.5, tvl: 166.0 }, // Caída
+    { date: "26/8", apy: 8.0, tvl: 172.7 }, // Caída
+    { date: "27/8", apy: 9.5, tvl: 189.5 }, // Caída
+    { date: "28/8", apy: 9.0, tvl: 216.4 }, // Caída final
   ];
 
   const CustomTooltip = ({
