@@ -11,6 +11,7 @@ interface WithdrawModalProps {
   vaultName: string;
   userArcUSDBalance: number;
   onWithdraw: (amount: string) => void;
+  isLoading?: boolean;
 }
 
 export const WithdrawModal: React.FC<WithdrawModalProps> = ({
@@ -19,10 +20,14 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
   vaultName,
   userArcUSDBalance,
   onWithdraw,
+  isLoading: externalIsLoading,
 }) => {
   const [amount, setAmount] = useState("");
   const [selectedReceiveToken, setSelectedReceiveToken] = useState("LSK");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Use external loading state if provided, otherwise use internal state
+  const isProcessing = externalIsLoading || isLoading;
 
   const handleMaxClick = () => {
     setAmount(userArcUSDBalance.toString());
@@ -120,10 +125,10 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
         <div className="flex space-x-3">
           <button
             onClick={handleWithdraw}
-            disabled={!amount || parseFloat(amount) <= 0 || isLoading}
+            disabled={!amount || parseFloat(amount) <= 0 || isProcessing}
             className="flex-1 bg-primary text-primary-content py-3 font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Processing..." : "Withdraw ArcUSD"}
+            {isProcessing ? "Processing..." : "Withdraw ArcUSD"}
           </button>
         </div>
       </div>
