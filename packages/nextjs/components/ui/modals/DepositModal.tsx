@@ -12,6 +12,7 @@ interface DepositModalProps {
   apy: number;
   onDeposit: (amount: string, token: string) => void;
   balanceDisplay?: string;
+  isLoading?: boolean;
 }
 
 export const DepositModal: React.FC<DepositModalProps> = ({
@@ -22,10 +23,14 @@ export const DepositModal: React.FC<DepositModalProps> = ({
   apy,
   onDeposit,
   balanceDisplay,
+  isLoading: externalIsLoading,
 }) => {
   const [amount, setAmount] = useState("");
   const [selectedToken, setSelectedToken] = useState("LSK");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Use external loading state if provided, otherwise use internal state
+  const isProcessing = externalIsLoading || isLoading;
 
   const handleMaxClick = () => {
     setAmount(userBalance.toString());
@@ -111,10 +116,10 @@ export const DepositModal: React.FC<DepositModalProps> = ({
         <div className="flex space-x-3">
           <button
             onClick={handleDeposit}
-            disabled={!amount || parseFloat(amount) <= 0 || isLoading}
+            disabled={!amount || parseFloat(amount) <= 0 || isProcessing}
             className="flex-1 bg-primary text-primary-content py-3 font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {isLoading ? "Depositing..." : `Deposit ${selectedToken}`}
+            {isProcessing ? "Processing..." : `Deposit ${selectedToken}`}
           </button>
         </div>
       </div>

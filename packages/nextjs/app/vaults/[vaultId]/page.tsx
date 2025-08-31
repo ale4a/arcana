@@ -14,8 +14,10 @@ import {
   VaultDetails,
   VaultHeader,
 } from "../../../components/vault";
+import { useScaffoldContractRead, useScaffoldContractWrite } from "../../../hooks/scaffold-eth";
 import { useVaultModals } from "../../../hooks/useVaultModals";
-import { useAccount } from "wagmi";
+import { formatEther, parseEther } from "viem";
+import { useAccount, useContractWrite } from "wagmi";
 import { useBalance } from "wagmi";
 
 const VaultPage = () => {
@@ -40,6 +42,74 @@ const VaultPage = () => {
     watch: true,
   });
 
+  // Contract write hooks for deposit, approval, and withdraw
+  const { writeAsync: depositAsync, isMining: isDepositing } = useScaffoldContractWrite({
+    contractName: "Arcana",
+    functionName: "deposit",
+    args: [0n, address as `0x${string}`],
+  });
+
+  const { writeAsync: withdrawAsync, isMining: isWithdrawing } = useScaffoldContractWrite({
+    contractName: "Arcana",
+    functionName: "withdraw",
+    args: [0n, address as `0x${string}`, address as `0x${string}`],
+  });
+
+  // Admin rebalance function - moves assets between strategies
+  const { writeAsync: rebalanceAsync, isMining: isRebalancing } = useScaffoldContractWrite({
+    contractName: "Arcana",
+    functionName: "rebalance",
+    args: [0n, 0n, 0n],
+  });
+
+  // For Lisk token approval, we need to use the Lisk token contract directly
+  const { writeAsync: approveLiskAsync, isLoading: isApprovingLisk } = useContractWrite({
+    address: LISK_TOKEN_ADDRESS as `0x${string}`,
+    abi: [
+      {
+        type: "function",
+        name: "approve",
+        inputs: [
+          { name: "spender", type: "address" },
+          { name: "amount", type: "uint256" },
+        ],
+        outputs: [{ name: "", type: "bool" }],
+        stateMutability: "nonpayable",
+      },
+    ],
+    functionName: "approve",
+  });
+
+  // Contract read hooks for vault data
+  // Get user's vault shares balance
+  const { data: userVaultShares, isLoading: isVaultSharesLoading } = useScaffoldContractRead({
+    contractName: "Arcana",
+    functionName: "balanceOf",
+    args: [address as `0x${string}`],
+  });
+
+  // Calculate the value of user's vault shares using previewRedeem
+  // This shows how much the user would receive if they redeemed all their shares
+  const { data: previewRedeemValue, isLoading: isPreviewRedeemLoading } = useScaffoldContractRead({
+    contractName: "Arcana",
+    functionName: "previewRedeem",
+    args: [userVaultShares || 0n],
+  });
+
+  // Preview withdraw function to calculate how much user would receive for a given amount
+  useScaffoldContractRead({
+    contractName: "Arcana",
+    functionName: "previewWithdraw",
+    args: [0n],
+  });
+
+  // Get total assets in the vault for rebalance calculation
+  const { data: totalAssets } = useScaffoldContractRead({
+    contractName: "Arcana",
+    functionName: "totalAssets",
+    args: undefined,
+  });
+
   // Mock data
   const vaultData = {
     vaultName: "Hyperbeat USDT",
@@ -48,7 +118,7 @@ const VaultPage = () => {
       "The best risk-adjusted return on your USDT, dynamically allocating capital through strategies typically exclusive to institutions now democratized for all.",
     apy: 9.51,
     tvl: 115.93,
-    yourValue: 0.0,
+    yourValue: previewRedeemValue ? Number(formatEther(previewRedeemValue)) : 0,
     yieldEarned: 0.0,
     unboost: 0.0,
     userBalance: liskBalance ? Number(liskBalance.formatted) : 0,
@@ -70,13 +140,23 @@ const VaultPage = () => {
     return `${vaultData.userBalance.toFixed(2)} LSK`;
   };
 
-  const protocolsData = [
-    { name: "HyperLiquid", protocol: "HYPE basis trade", apy: "30.47%", amount: "$54.25M" },
-    { name: "Gho", protocol: "Cash", apy: "12.18%", amount: "$14.41M" },
-    { name: "HyperLiquid", protocol: "ETHW basis trade", apy: "11.25%", amount: "$15.42M" },
-    { name: "HyperLiquid", protocol: "PAYCOINS basis trade", apy: "10.15%", amount: "$32.06M" },
-    { name: "Folks", protocol: "BORROW VAULT", apy: "8.42%", amount: "$10.06M" },
-    { name: "HyperLend", protocol: "Supply USDT0", apy: "5.30%", amount: "$7.23M" },
+  // Handle loading and error states for vault value
+  const getVaultValueDisplay = () => {
+    if (isVaultSharesLoading || isPreviewRedeemLoading) {
+      return "Loading...";
+    }
+    if (!address) {
+      return "Connect wallet to view value";
+    }
+    if (!userVaultShares || userVaultShares === 0n) {
+      return "$0.00";
+    }
+    return `$${vaultData.yourValue.toFixed(2)}`;
+  };
+
+  const strategiesData = [
+    { name: "Morpho", protocol: "HEV Capital Infrastructure", apy: "30.47%", amount: "$54.25M" },
+    { name: "Rasa", protocol: "HEV Capital Infrastructure", apy: "12.18%", amount: "$14.41M" },
   ];
 
   const vaultDetails = {
@@ -87,14 +167,85 @@ const VaultPage = () => {
     exchange: "1 HUUSDT = 1.042391 USDT0",
   };
 
-  const handleDeposit = async (amount: string, token: string) => {
-    console.log("Depositing:", amount, token, "into", vaultData.vaultName);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  const handleDeposit = async (amount: string) => {
+    if (!address || !amount || parseFloat(amount) <= 0) {
+      console.error("Invalid deposit parameters");
+      return;
+    }
+
+    try {
+      const amountInWei = parseEther(amount);
+
+      // First, approve the Arcana vault to spend Lisk tokens
+      // The user needs to approve the Arcana vault address to spend their Lisk tokens
+      console.log("Approving Lisk tokens for Arcana vault...");
+      await approveLiskAsync({
+        args: ["0x22EC63533e99f6CEf08DEBa30cf67cd9982cb2E2" as `0x${string}`, amountInWei],
+      });
+
+      // Then deposit into the Arcana vault
+      console.log("Depositing into Arcana vault...");
+      await depositAsync({
+        args: [amountInWei, address],
+      });
+
+      console.log("Deposit successful!");
+    } catch (error) {
+      console.error("Deposit failed:", error);
+      throw error;
+    }
   };
 
   const handleWithdraw = async (amount: string) => {
-    console.log("Withdrawing:", amount, "ArcUSD");
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    if (!address || !amount || parseFloat(amount) <= 0) {
+      console.error("Invalid withdraw parameters");
+      return;
+    }
+
+    try {
+      const amountInWei = parseEther(amount);
+
+      // Withdraw from the Arcana vault using the withdraw function
+      // withdraw(assets, receiver, owner) - where owner is the user's address
+      console.log("Withdrawing from Arcana vault...");
+      await withdrawAsync({
+        args: [amountInWei, address, address],
+      });
+
+      console.log("Withdraw successful!");
+    } catch (error) {
+      console.error("Withdraw failed:", error);
+      throw error;
+    }
+  };
+
+  const handleRebalance = async () => {
+    if (!address) {
+      console.error("Wallet not connected");
+      return;
+    }
+
+    if (!totalAssets || totalAssets === 0n) {
+      console.error("No assets in vault to rebalance");
+      return;
+    }
+
+    try {
+      // Calculate half of the total assets for rebalancing
+      const halfAssets = totalAssets / 2n;
+
+      // Rebalance half of the supply from strategy 0 to strategy 1
+      // rebalance(fromIdx, toIdx, assets) - where assets is half of total supply
+      console.log(`Rebalancing ${formatEther(halfAssets)} assets from strategy 0 to strategy 1...`);
+      await rebalanceAsync({
+        args: [0n, 1n, halfAssets],
+      });
+
+      console.log("Rebalance successful!");
+    } catch (error) {
+      console.error("Rebalance failed:", error);
+      throw error;
+    }
   };
 
   const toggleSection = (section: string) => {
@@ -151,7 +302,18 @@ const VaultPage = () => {
             <div className="grid grid-cols-3 gap-4">
               <div className="bg-base-100 border border-base-300 p-4">
                 <div className="text-sm text-base-content/70 mb-1">YOUR $ VALUE</div>
-                <div className="font-medium">${vaultData.yourValue.toFixed(2)}</div>
+                <div className="font-medium">
+                  {isVaultSharesLoading || isPreviewRedeemLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : !address ? (
+                    <span className="text-warning">Connect wallet</span>
+                  ) : (
+                    getVaultValueDisplay()
+                  )}
+                </div>
               </div>
               <div className="bg-base-100 border border-base-300 p-4">
                 <div className="text-sm text-base-content/70 mb-1">YIELD EARNED</div>
@@ -159,7 +321,20 @@ const VaultPage = () => {
               </div>
               <div className="bg-base-100 border border-base-300 p-4">
                 <div className="text-sm text-base-content/70 mb-1">arcUSDC</div>
-                <div className="font-medium">{vaultData.unboost.toFixed(2)}</div>
+                <div className="font-medium">
+                  {isVaultSharesLoading ? (
+                    <div className="flex items-center space-x-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary"></div>
+                      <span>Loading...</span>
+                    </div>
+                  ) : !address ? (
+                    <span className="text-warning">Connect wallet</span>
+                  ) : userVaultShares ? (
+                    Number(formatEther(userVaultShares)).toFixed(4)
+                  ) : (
+                    "0.0000"
+                  )}
+                </div>
                 <div className="flex mt-2 space-x-1">
                   {vaultData.depositAssets.map((asset, index) => (
                     <div
@@ -208,11 +383,47 @@ const VaultPage = () => {
               </button>
             </div>
 
-        {/* First Row - Main Vault Info and Performance Chart */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mb-4">
-          {/* Left Column - Vault Info */}
-          <div className="space-y-2">
-            <VaultHeader vaultName={vaultData.vaultName} description={vaultData.description} token={vaultData.token} />
+            {/* Admin Rebalance Button */}
+            <div className="bg-base-100 border border-base-300 p-4">
+              <div className="text-sm text-base-content/70 mb-2">ADMIN CONTROLS</div>
+              <button
+                onClick={handleRebalance}
+                disabled={isRebalancing || !totalAssets || totalAssets === 0n}
+                className="w-full bg-warning text-warning-content py-3 text-center font-medium hover:bg-warning-focus transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isRebalancing ? (
+                  <div className="flex items-center justify-center space-x-2">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-warning-content"></div>
+                    <span>Rebalancing...</span>
+                  </div>
+                ) : (
+                  `Rebalance half - Morpho → Rasa`
+                )}
+              </button>
+              <div className="text-xs text-base-content/50 mt-2">
+                Moves half of total vault assets from strategy 0 to strategy 1
+              </div>
+            </div>
+
+            {/* Expandable Sections */}
+            <div className="space-y-4">
+              {/* Hyperbeat Rewards */}
+              <div className="bg-base-100 border border-base-300">
+                <button
+                  onClick={() => toggleSection("rewards")}
+                  className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
+                >
+                  <span className="font-medium">HYPERBEAT REWARDS</span>
+                  <span className="text-xl">{expandedSections.rewards ? "−" : "+"}</span>
+                </button>
+                {expandedSections.rewards && (
+                  <div className="p-4 border-t border-base-300">
+                    <p className="text-sm text-base-content/70">
+                      Earn additional rewards through the Hyperbeat protocol.
+                    </p>
+                  </div>
+                )}
+              </div>
 
             <StatsCards apy={vaultData.apy} tvl={vaultData.tvl} />
 
@@ -269,15 +480,18 @@ const VaultPage = () => {
           apy={vaultData.apy / 100}
           onDeposit={handleDeposit}
           balanceDisplay={getBalanceDisplay()}
+          isLoading={isDepositing || isApprovingLisk}
         />
 
-      <WithdrawModal
-        isOpen={isWithdrawOpen}
-        onClose={closeModal}
-        vaultName={vaultData.vaultName}
-        userArcUSDBalance={vaultData.userArcUSDBalance}
-        onWithdraw={handleWithdraw}
-      />
+        <WithdrawModal
+          isOpen={isWithdrawOpen}
+          onClose={closeModal}
+          vaultName={vaultData.vaultName}
+          userArcUSDBalance={userVaultShares ? Number(formatEther(userVaultShares)) : 0}
+          onWithdraw={handleWithdraw}
+          isLoading={isWithdrawing}
+        />
+      </div>
     </div>
   );
 };
