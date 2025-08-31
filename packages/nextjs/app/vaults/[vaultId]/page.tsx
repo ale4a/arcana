@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import DepositModal from "../../../components/ui/modals/DepositModal";
 import WithdrawModal from "../../../components/ui/modals/WithdrawModal";
 import { useVaultModals } from "../../../hooks/useVaultModals";
@@ -8,6 +9,11 @@ import { useVaultModals } from "../../../hooks/useVaultModals";
 const VaultPage = () => {
   const { isDepositOpen, isWithdrawOpen, openDepositModal, openWithdrawModal, closeModal } = useVaultModals();
   const [expandedSections, setExpandedSections] = useState<{ [key: string]: boolean }>({});
+  const router = useRouter();
+
+  const handleBackToVaults = () => {
+    router.push("/vaults");
+  };
 
   // Mock data
   const vaultData = {
@@ -64,12 +70,20 @@ const VaultPage = () => {
       <div className="max-w-7xl mx-auto p-6">
         {/* Back to all vaults */}
         <div className="mb-4">
-          <button className="text-sm text-base-content/70 hover:text-base-content">← Back to all vaults</button>
+          <button
+            onClick={handleBackToVaults}
+            className="flex items-center space-x-2 bg-base-100 border border-base-300 px-4 py-2 text-sm font-medium text-base-content hover:bg-base-200 transition-colors"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Back to all vaults</span>
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-2">
             {/* Vault Header */}
             <div className="bg-base-100 border-[1px] border-base-300 p-6">
               <div className="flex items-center space-x-3 mb-4">
@@ -128,17 +142,17 @@ const VaultPage = () => {
               </div>
             </div>
 
-            {/* Action Buttons */}
-            <div className="grid grid-cols-2 gap-4">
+            {/* Action Buttons - Desktop */}
+            <div className="hidden md:grid grid-cols-2 gap-4">
               <button
                 onClick={openDepositModal}
-                className="bg-base-100 border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
+                className="bg-primary border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
               >
                 DEPOSIT
               </button>
               <button
                 onClick={openWithdrawModal}
-                className="bg-base-100 border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
+                className="bg-primary border border-base-300 py-3 text-center font-medium hover:bg-base-200 transition-colors"
               >
                 WITHDRAW
               </button>
@@ -294,6 +308,27 @@ const VaultPage = () => {
             </div>
           </div>
         </div>
+
+        {/* Mobile Action Buttons - Sticky Footer */}
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 p-4 z-40">
+          <div className="grid grid-cols-2 gap-3 mx-auto">
+            <button
+              onClick={openDepositModal}
+              className="bg-primary text-primary-content py-3 px-4 text-center font-medium hover:bg-primary/90 transition-colors"
+            >
+              DEPOSIT
+            </button>
+            <button
+              onClick={openWithdrawModal}
+              className="bg-primary text-primary-content py-3 px-4 text-center font-medium hover:bg-primary/90 transition-colors"
+            >
+              WITHDRAW
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile padding bottom to avoid content being hidden behind sticky footer */}
+        <div className="md:hidden h-20"></div>
 
         {/* Modals */}
         <DepositModal
