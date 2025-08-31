@@ -11,6 +11,7 @@ interface DepositModalProps {
   userBalance: number;
   apy: number;
   onDeposit: (amount: string, token: string) => void;
+  balanceDisplay?: string;
 }
 
 export const DepositModal: React.FC<DepositModalProps> = ({
@@ -20,6 +21,7 @@ export const DepositModal: React.FC<DepositModalProps> = ({
   userBalance,
   apy,
   onDeposit,
+  balanceDisplay,
 }) => {
   const [amount, setAmount] = useState("");
   const [selectedToken, setSelectedToken] = useState("LSK");
@@ -71,11 +73,12 @@ export const DepositModal: React.FC<DepositModalProps> = ({
             </div>
             <div className="text-xs flex items-center justify-end text-base-content/70 mt-1">
               <span className="text-sm truncate">
-                Balance: {userBalance.toFixed(2)} {selectedToken}
+                Balance: {balanceDisplay || `${userBalance.toFixed(2)} ${selectedToken}`}
               </span>
               <button
                 onClick={handleMaxClick}
                 className="bg-primary px-3 py-1 text-xs font-medium text-primary-content ml-2 flex-shrink-0"
+                disabled={!userBalance || userBalance <= 0}
               >
                 MAX
               </button>

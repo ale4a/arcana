@@ -1,27 +1,27 @@
 import { defineChain } from "viem";
 
-export const liskSepolia = /*#__PURE__*/ defineChain({
-  id: 4202,
-  network: "lisk-sepolia",
-  name: "Lisk Sepolia Testnet",
+export const lisk = /*#__PURE__*/ defineChain({
+  id: 1135,
+  network: "lisk",
+  name: "Lisk",
   nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
   rpcUrls: {
     default: {
-      http: ["https://rpc.sepolia-api.lisk.com"],
+      http: ["https://rpc.api.lisk.com"],
     },
     public: {
-      http: ["https://rpc.sepolia-api.lisk.com"],
+      http: ["https://rpc.api.lisk.com"],
     },
   },
   blockExplorers: {
     blockscout: {
       name: "Blockscout",
-      url: "https://sepolia-blockscout.lisk.com",
+      url: "https://blockscout.lisk.com",
     },
     default: {
       name: "Blockscout",
-      url: "https://sepolia-blockscout.lisk.com",
+      url: "https://blockscout.lisk.com",
     },
   },
-  testnet: true,
+  testnet: false,
 });
