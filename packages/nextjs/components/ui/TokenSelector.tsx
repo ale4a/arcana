@@ -26,7 +26,7 @@ const tokens: Token[] = [
   {
     symbol: "USDC.e",
     name: "USD Coin (Bridged)",
-    logo: "/tokens/usdc.png",
+    logo: "/tokens/usdce.png",
     enabled: false,
   },
   {

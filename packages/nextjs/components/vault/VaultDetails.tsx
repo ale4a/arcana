@@ -35,10 +35,6 @@ const VaultDetails: React.FC<VaultDetailsProps> = ({ details }) => {
           <span className="text-base-content/70">Deposit Lock Period</span>
           <span className="font-medium">{details.deposit}</span>
         </div>
-        <div className="flex justify-between">
-          <span className="text-base-content/70">Exchange Rate</span>
-          <span className="font-medium">{details.exchange}</span>
-        </div>
       </div>
     </div>
   );

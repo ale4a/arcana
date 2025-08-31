@@ -8,18 +8,17 @@ interface ExpandableSectionsProps {
 const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ expandedSections, toggleSection }) => {
   return (
     <>
-      {/* Hyperbeat Rewards */}
       <div className="bg-base-100 border border-base-300">
         <button
           onClick={() => toggleSection("rewards")}
           className="w-full p-4 text-left flex justify-between items-center hover:bg-base-200 transition-colors"
         >
-          <span className="font-medium">HYPERBEAT REWARDS</span>
+          <span className="font-medium">arcUSDC REWARDS</span>
           <span className="text-xl">{expandedSections.rewards ? "−" : "+"}</span>
         </button>
         {expandedSections.rewards && (
           <div className="p-4 border-t border-base-300">
-            <p className="text-sm text-base-content/70">Earn additional rewards through the Hyperbeat protocol.</p>
+            <p className="text-sm text-base-content/70">Earn additional rewards through the Arcana finance.</p>
           </div>
         )}
       </div>
@@ -55,9 +54,9 @@ const ExpandableSections: React.FC<ExpandableSectionsProps> = ({ expandedSection
           <div className="p-4 border-t border-base-300">
             <div className="space-y-3 text-sm">
               <div>
-                <div className="font-medium mb-1">What is the USDT vault?</div>
+                <div className="font-medium mb-1">What is the LSK vault?</div>
                 <div className="text-base-content/70">
-                  A yield-generating vault that optimizes returns on USDT deposits.
+                  A yield-generating vault that optimizes returns on LSK deposits.
                 </div>
               </div>
               <div>

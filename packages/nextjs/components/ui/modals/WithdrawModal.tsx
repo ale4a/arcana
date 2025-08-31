@@ -63,7 +63,7 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
                 placeholder="0.00"
                 className="flex-1 min-w-0 bg-base-100 border border-base-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-primary/20"
               />
-              <div className="bg-base-200 border border-base-300 px-3 py-2 border-l-0 text-sm font-medium flex items-center space-x-2 whitespace-nowrap">
+              <div className="bg-base-200 border border-base-300 px-3 py-2 text-sm font-medium flex items-center space-x-2 whitespace-nowrap">
                 <Image
                   src="/tokens/ArcUSD.png"
                   alt="ArcUSD"

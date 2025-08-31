@@ -20,7 +20,7 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({
   // URLs constantes
   const DOCS_URL =
     "https://puddle-feverfew-e8a.notion.site/Arcana-Whitepaper-2607f7e814af80439387cc6e0e5a0f34?source=copy_link";
-  const TERMS_URL = "https://x.com/ArcanaFinance";
+  // const TERMS_URL = "https://x.com/ArcanaFinance";
   const X_URL = "https://x.com/ArcanaFinance";
   const handleLinkClick = (url: string) => {
     if (url && url !== "#") {
@@ -38,15 +38,15 @@ export const ProtocolStats: React.FC<ProtocolStatsProps> = ({
               onClick={() => handleLinkClick(DOCS_URL)}
               className="text-xs font-medium uppercase tracking-wider hover:text-primary transition-colors cursor-pointer"
             >
-              DOCS
+              Whitepaper
             </button>
-            <span className="text-xs text-base-content/50">•</span>
-            <button
+            {/* <span className="text-xs text-base-content/50">•</span> */}
+            {/* <button
               onClick={() => handleLinkClick(TERMS_URL)}
               className="text-xs font-medium uppercase tracking-wider hover:text-primary transition-colors cursor-pointer"
             >
               TERMS
-            </button>
+            </button> */}
             <span className="text-xs text-base-content/50">•</span>
             <button
               onClick={() => handleLinkClick(X_URL)}

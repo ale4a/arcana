@@ -30,8 +30,24 @@ const HeroSection = () => {
                 Asset Management <span className="text-primary">Like Never Before</span>
               </h1>
               <p className="text-xl sm:text-2xl lg:text-3xl text-base-content/70 leading-relaxed">
-                Scaling yield safely for large volumes of capital
+                Scaling yield safely for large volumes of capital with crosschain vaults powered by AI + DAO rebalancing
               </p>
+            </div>
+
+            {/* Key Features Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8">
+              <div className="bg-base-200/50 rounded-lg p-4 text-center">
+                <div className="text-2xl font-bold text-primary">$1B+</div>
+                <div className="text-sm text-base-content/70">Target AUM</div>
+              </div>
+              <div className="bg-base-200/50 rounded-lg p-4 text-center">
+                <div className="text-lg font-semibold text-primary">AI + DAO</div>
+                <div className="text-sm text-base-content/70">Rebalancing</div>
+              </div>
+              <div className="bg-base-200/50 rounded-lg p-4 text-center">
+                <div className="text-lg font-semibold text-primary">Crosschain</div>
+                <div className="text-sm text-base-content/70">Vaults</div>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
