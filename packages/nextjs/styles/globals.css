@@ -26,3 +26,39 @@ h4 {
 .btn.btn-ghost {
   @apply shadow-none;
 }
+
+/* Custom Scrollbar Styles */
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(var(--b2));
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(var(--bc) / 0.3);
+  border-radius: 0;
+  border: none;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(var(--bc) / 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: oklch(var(--p));
+}
+
+::-webkit-scrollbar-corner {
+  background: oklch(var(--b2));
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(var(--bc) / 0.3) oklch(var(--b2));
+}

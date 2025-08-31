@@ -52,7 +52,7 @@ module.exports = {
           "neutral-content": "#FFFFFF", // Blanco puro
           "base-100": "#000000", // Negro puro absoluto
           "base-200": "#0A0A0A", // Negro ligeramente más claro
-          "base-300": "#1A1A1A", // Gris muy oscuro
+          "base-300": "#808080", // Gris muy oscuro
           "base-content": "#FFFFFF", // Blanco puro para texto
           info: "#6B7280", // Gris neutro
           success: "#22C55E", // Verde simple
