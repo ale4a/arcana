@@ -5,7 +5,7 @@ export const Footer = () => {
   return (
     <footer className="bg-base-200 border-t border-base-300">
       <div className="max-w-7xl mx-auto px-6 py-6">
-        <div className="flex flex-col items-center space-y-4">
+        <div className="flex justify-between items-center">
           {/* Logo y Nombre */}
           <div className="flex items-center space-x-3">
             <Logo size={40} />
@@ -27,10 +27,8 @@ export const Footer = () => {
               Terms
             </a>
           </div>
-
-          {/* Copyright */}
-          <p className="text-xs text-base-content/70 text-center">© 2025 Arcana. All rights reserved.</p>
         </div>
+        <p className="text-xs text-base-content/70 text-center">© 2025 Arcana. All rights reserved.</p>
       </div>
     </footer>
   );
