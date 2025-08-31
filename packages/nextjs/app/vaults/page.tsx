@@ -1,6 +1,8 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { ProtocolStats } from "~~/components/ProtocolStats";
 
 interface Vault {
@@ -11,42 +13,58 @@ interface Vault {
   supplyApy: number;
   rewards: number;
   token: string;
+  vaultId: string;
 }
 
 const mockVaults: Vault[] = [
   {
     id: "1",
-    name: "ETH Liquid Staking",
+    name: "USDT0 Liquid Staking",
     yourDeposits: 2.45,
     totalDeposits: 15420.67,
     supplyApy: 5.2,
     rewards: 0.127,
-    token: "ETH",
+    token: "USDT0",
+    vaultId: "usdt0",
   },
   {
     id: "2",
-    name: "USDC Yield Farm",
+    name: "USDT Yield Farm",
     yourDeposits: 1250.0,
     totalDeposits: 892340.12,
     supplyApy: 8.7,
     rewards: 108.75,
-    token: "USDC",
+    token: "USDT",
+    vaultId: "usdt",
   },
   {
     id: "3",
-    name: "LISK Staking Pool",
+    name: "LSK Pool",
     yourDeposits: 5000.0,
     totalDeposits: 234567.89,
     supplyApy: 12.3,
     rewards: 615.0,
-    token: "LISK",
+    token: "LSK",
+    vaultId: "lsk",
+  },
+  {
+    id: "4",
+    name: "USDC0 Pool",
+    yourDeposits: 1000.0,
+    totalDeposits: 123456.78,
+    supplyApy: 10.0,
+    rewards: 123.45,
+    token: "USDCE",
+    vaultId: "usdce",
   },
 ];
 
 const VaultsPage = () => {
+  const router = useRouter();
+
   const handleDeposit = (vaultId: string) => {
-    // Aquí iría la lógica de depósito
-    console.log(`Depositing to vault ${vaultId}`);
+    // Redireccionar a la página específica del vault
+    router.push(`/vaults/${vaultId}`);
   };
 
   const formatNumber = (num: number) => {
@@ -81,12 +99,18 @@ const VaultsPage = () => {
                   >
                     <td className="p-4">
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 bg-base-300 flex items-center justify-center text-xs font-medium">
+                        {/* <div className="w-8 h-8 bg-base-300 flex items-center justify-center text-xs font-medium">
                           {vault.token}
-                        </div>
+                        </div> */}
+                        <Image
+                          src={`/tokens/${vault.token}.png`}
+                          alt={vault.token}
+                          width={20}
+                          height={20}
+                          className="rounded-full"
+                        />
                         <div>
                           <div className="font-normal text-base">{vault.name}</div>
-                          <div className="text-sm text-base-content/70">{vault.token} Token</div>
                         </div>
                       </div>
                     </td>
@@ -94,23 +118,23 @@ const VaultsPage = () => {
                       <div className="font-normal text-base">
                         {formatNumber(vault.yourDeposits)} {vault.token}
                       </div>
-                      <div className="text-sm text-base-content/70">
+                      {/* <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.yourDeposits * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
                         )}
-                      </div>
+                      </div> */}
                     </td>
                     <td className="p-4">
                       <div className="font-normal text-base">
                         {formatNumber(vault.totalDeposits)} {vault.token}
                       </div>
-                      <div className="text-sm text-base-content/70">
+                      {/* <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.totalDeposits * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
                         )}
-                      </div>
+                      </div> */}
                     </td>
                     <td className="p-4">
                       <div className="font-medium text-base text-success">{vault.supplyApy}%</div>
@@ -119,16 +143,16 @@ const VaultsPage = () => {
                       <div className="font-normal text-base">
                         {formatNumber(vault.rewards)} {vault.token}
                       </div>
-                      <div className="text-sm text-base-content/70">
+                      {/* <div className="text-sm text-base-content/70">
                         $
                         {formatNumber(
                           vault.rewards * (vault.token === "ETH" ? 2500 : vault.token === "USDC" ? 1 : 0.5),
                         )}
-                      </div>
+                      </div> */}
                     </td>
                     <td className="p-4">
                       <button
-                        onClick={() => handleDeposit(vault.id)}
+                        onClick={() => handleDeposit(vault.vaultId)}
                         className="bg-primary text-primary-content font-medium py-2 px-4 border border-primary hover:bg-primary/90 transition-colors uppercase tracking-wide"
                       >
                         DEPOSIT
