@@ -111,9 +111,9 @@ export const Header = () => {
           <HeaderMenuLinks />
         </ul>
       </div>
-      <div className="navbar-end flex-grow mr-4">
-        <SwitchTheme />
+      <div className="navbar-end flex-grow mr-4 gap-2">
         <RainbowKitCustomConnectButton />
+        <SwitchTheme />
         {/* <FaucetButton /> */}
         {/* <SuperchainFaucetButton /> */}
         {/* <DappConsoleButton /> */}
