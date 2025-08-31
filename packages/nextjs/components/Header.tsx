@@ -110,9 +110,6 @@ export const Header = () => {
           <div className="flex relative">
             <Logo size={52} />
           </div>
-          <div className="flex flex-col">
-            <span className="font-bold leading-tight">Arcana</span>
-          </div>
         </Link>
 
         <ul className="hidden lg:flex lg:flex-nowrap menu menu-horizontal px-1 gap-2">
