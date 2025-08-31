@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { ProtocolStats } from "~~/components/ProtocolStats";
 
 interface Vault {
   id: string;
@@ -69,7 +70,7 @@ const VaultsPage = () => {
                   <th className="p-4 text-left font-normal uppercase tracking-wider text-sm">Total Deposits</th>
                   <th className="p-4 text-left font-normal uppercase tracking-wider text-sm">Supply APY</th>
                   <th className="p-4 text-left font-normal uppercase tracking-wider text-sm">Rewards</th>
-                  <th className="p-4 text-left font-normal uppercase tracking-wider text-sm">Action</th>
+                  <th className="p-4 text-left font-normal uppercase tracking-wider text-sm"></th>
                 </tr>
               </thead>
               <tbody>
@@ -140,38 +141,7 @@ const VaultsPage = () => {
           </div>
         </div>
 
-        {/* Footer Stats */}
-        <div className="mt-8 bg-base-200 border border-base-300">
-          <div className="p-6 text-base-content">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 text-sm">
-              <div className="border-r border-base-content/20 pr-4">
-                <span className="font-medium uppercase tracking-wide">TVL:</span>
-                <p className="font-bold text-lg">$354.32M</p>
-              </div>
-              <div className="border-r border-base-content/20 pr-4">
-                <span className="font-medium uppercase tracking-wide">Validator Stake:</span>
-                <p className="font-bold text-lg">$147.24M</p>
-              </div>
-              <div className="border-r border-base-content/20 pr-4">
-                <span className="font-medium uppercase tracking-wide">Active Vaults:</span>
-                <p className="font-bold text-lg">3</p>
-              </div>
-              <div className="border-r border-base-content/20 pr-4">
-                <span className="font-medium uppercase tracking-wide">Avg APY:</span>
-                <p className="font-bold text-lg">8.73%</p>
-              </div>
-              <div className="border-r border-base-content/20 pr-4">
-                <span className="font-medium uppercase tracking-wide">Status:</span>
-                <p className="font-bold text-lg">Operational</p>
-              </div>
-              <div>
-                <span className="font-medium uppercase tracking-wide">Users:</span>
-                <p className="font-bold text-lg">2,847</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
+        <ProtocolStats className="mt-4" />
         {/* Footer Links */}
       </div>
     </div>

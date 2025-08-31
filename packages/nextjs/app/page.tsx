@@ -16,11 +16,6 @@ const Home: NextPage = () => {
       <div className="max-w-7xl mx-auto">
         {/* Hero Section */}
         <div className="bg-base-100 border border-base-300 mb-8">
-          <div className="bg-base-300 text-base-content p-6">
-            <h1 className="text-4xl font-bold uppercase tracking-wider">VAULT PROTOCOL</h1>
-            <p className="text-lg mt-2 opacity-90">Earn yield on your crypto assets</p>
-          </div>
-
           <div className="p-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {stats.map((stat, index) => (

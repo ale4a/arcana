@@ -97,13 +97,12 @@ export const Header = () => {
             </ul>
           )}
         </div>
-        <Link href="/" passHref className="hidden lg:flex items-center gap-2 ml-4 mr-6 shrink-0">
+        <Link href="/" passHref className="hidden lg:flex items-center gap-1 ml-4 mr-6 shrink-0">
           <div className="flex relative">
             <Logo size={52} />
           </div>
           <div className="flex flex-col">
             <span className="font-bold leading-tight">Arcana</span>
-            <span className="text-xs">Earn yield on your crypto assets</span>
           </div>
         </Link>
 
